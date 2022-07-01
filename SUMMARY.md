@@ -29,3 +29,4 @@
     * [OpenCATS Backup/Restore and Upgrade Instructions-THIS SECTION INCOMPLETE!](readme/technical-configuration-options/opencats-backup-restore-and-upgrade-instructions-this-section-incomplete.md)
 * [How-to's](how-tos/README.md)
   * [Password resets](how-tos/password-resets.md)
+  * [Reminder emails](how-tos/reminder-emails.md)
