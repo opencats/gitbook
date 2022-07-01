@@ -1,6 +1,6 @@
 # Table of contents
 
-* [opencats v0.9.6](README.md)
+* [opencats (release 0.9.6)](README.md)
   * [Introduction and Overview](readme/introduction-and-overview/README.md)
     * [Licensing](readme/introduction-and-overview/licensing.md)
     * [Authors and Contributors](readme/introduction-and-overview/authors-and-contributors.md)

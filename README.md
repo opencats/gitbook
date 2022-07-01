@@ -4,7 +4,9 @@ description: >-
   open-source applicant tracking system 'opencats' available at opencats.org
 ---
 
-# opencats v0.9.6
+# opencats (release 0.9.6)
+
+![](.gitbook/assets/opencats-logo.png)
 
 ### Release information[¶](broken-reference)
 
