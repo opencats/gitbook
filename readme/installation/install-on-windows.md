@@ -61,6 +61,11 @@ If phpmyadmin does not load in this screen, stop and start your apache service a
 * In the box labelled `database name` type `opencats`.
 * Hit `create`
 
+**NOTE: The default encoding for new databases in MariaDB is latin-1 which will have problems with non-english characters. If you will encounter any non-english characters, please create your databases and select  UTF-8 encoding and collation;**\
+****\
+******CHARACTER SET utf8** \
+**COLLATION utf8\_general\_ci**;&#x20;
+
 ![\_images/phpmyadmin-newdb.png](<../../.gitbook/assets/phpmyadmin newdb>)
 
 You should now see “opencats” listed among the databases on the left.

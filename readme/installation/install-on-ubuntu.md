@@ -48,6 +48,8 @@ sudo update-alternatives --set php /usr/bin/php7.2
 
 **This is the backend database that stores all your OpenCATS information. You likely will NOT be messing with this much after installation unless you choose to. The login/password you set up here will NOT be the same as your login/password for OpenCATS.**
 
+**NOTE: The default encoding for new databases in MariaDB is latin-1 which will have problems with non-english characters. If you will encounter any non-english characters, please creaet your databases with UTF-8 encoding (shown in bold, below)**
+
 * `$ sudo mysql -u root -p`
 
 It will ask you for your Ubuntu Root password
@@ -56,7 +58,8 @@ Then it will ask you for your mysql root password
 
 * You should see a prompt like this: `mysql>`
 * `mysql>` CREATE USER [‘opencats’@’localhost](mailto:'opencats'%40'localhost)’ IDENTIFIED BY ‘databasepassword’;
-* `mysql>` CREATE DATABASE opencats;
+* `mysql>` CREATE DATABASE opencats;\
+  OR WITH UTF-8; **CREATE DATABASE opencats CHARACTER SET utf8 COLLATE utf8\_general\_ci**;&#x20;
 * `mysql>` GRANT ALL PRIVILEGES ON ‘opencats’.\* TO [‘opencats’@’localhost](mailto:'opencats'%40'localhost)’ IDENTIFIED BY ‘databasepassword’;
 * `mysql>` exit;
 
