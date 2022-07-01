@@ -70,7 +70,7 @@ When you create/save/store backup files, you can rename them however you want. W
 
 Referring to the “Install the OpenCATS software” section of the installation walkthrough, on “Step 3: Loading Data”, choose the `Restore installation from backup` option.
 
-![\_images/step3.png](../.gitbook/assets/step3)
+![\_images/step3.png](../../.gitbook/assets/step3)
 
 It will ask you to confirm that you have uploaded the catsbackup.bak file into the restore directory. Check the box and click `continue`.
 
