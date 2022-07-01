@@ -56,12 +56,12 @@ It will ask you for your Ubuntu Root password
 
 Then it will ask you for your mysql root password
 
-* You should see a prompt like this: `mysql>`
-* `mysql>` CREATE USER [‘opencats’@’localhost](mailto:'opencats'%40'localhost)’ IDENTIFIED BY ‘databasepassword’;
-* `mysql>` CREATE DATABASE opencats;\
-  OR WITH UTF-8; **CREATE DATABASE opencats CHARACTER SET utf8 COLLATE utf8\_general\_ci**;&#x20;
-* `mysql>` GRANT ALL PRIVILEGES ON ‘opencats’.\* TO [‘opencats’@’localhost](mailto:'opencats'%40'localhost)’ IDENTIFIED BY ‘databasepassword’;
-* `mysql>` exit;
+* You should see a prompt like this: `MariaDB [(none)]>`
+* MariaDB \[(none)]> `CREATE USER` [`‘opencats’@’localhost`](mailto:'opencats'%40'localhost)`’ IDENTIFIED BY ‘databasepassword’;`
+* MariaDB \[(none)]> `CREATE DATABASE opencats;`\
+  OR WITH UTF-8; **`CREATE DATABASE opencats CHARACTER SET utf8 COLLATE utf8_general_ci`**`;`&#x20;
+* MariaDB \[(none)]> `GRANT ALL PRIVILEGES ON opencats.* TO` [`‘opencats’@’localhost`](mailto:'opencats'%40'localhost)`’ IDENTIFIED BY ‘databasepassword’;`
+* MariaDB \[(none)]> `exit;`
 
 Note
 
