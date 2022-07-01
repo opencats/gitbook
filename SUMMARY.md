@@ -27,3 +27,5 @@
     * [Roadmap](readme/technical-configuration-options/roadmap.md)
     * [Vital Security: Restrict access to upload folders (.htaccess)](readme/technical-configuration-options/vital-security-restrict-access-to-upload-folders-.htaccess.md)
     * [OpenCATS Backup/Restore and Upgrade Instructions-THIS SECTION INCOMPLETE!](readme/technical-configuration-options/opencats-backup-restore-and-upgrade-instructions-this-section-incomplete.md)
+* [How-to's](how-tos/README.md)
+  * [Password resets](how-tos/password-resets.md)
