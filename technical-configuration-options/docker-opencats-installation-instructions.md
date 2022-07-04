@@ -15,7 +15,7 @@ OpenCATS is installed in container without database. Database in in extra contai
 
 \##Dockerfile
 
-OpenCats docer file is based on [php docker image](https://hub.docker.com/\_/php/) tag [php:5.5-apache](https://github.com/docker-library/php/blob/e37ca400ba0e1c34357bf06732bc77064e5a4941/5.5/apache/Dockerfile) All dependencies are installed into the image.
+OpenCats docker file is based on [php 7.2 docker image](https://hub.docker.com/layers/php-base/opencats/php-base/7.2-fpm-alpine-mcrypt/images/sha256-dd77f92ad45a4534473771b2e3ecb69876a6a02c1e9259273cdefa4697104b4f?context=explore) All dependencies are installed into the image.
 
 \##docker-compose.yml
 
