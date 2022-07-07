@@ -12,7 +12,7 @@ An Applicant tracking system, or ATS, is software designed specifically for Recr
 
 Without getting too specific or technical on what is and is not open source, open source software is community developed software that is available to use for free, by anyone, at any time, in any way they choose to. It is truly “free” software. Furthermore, because of the open nature, if you want to dig into the code and customize it, you are allowed to. If you want to share your changes back with the community, you are allowed to (please do!).
 
-There are a lot of different variances in p\[en source software and they’ve been covered extensively online. If you want to really dig into, and understand the purpose, intentions, limitations of open source software, please read up on it.
+There are a lot of different variances in open source software and they’ve been covered extensively online. If you want to really dig into, and understand the purpose, intentions, limitations of open source software, please read up on it.
 
 The developers behind OpenCATS will never contact you to try to sell you anything. We are a community of people creating recruiting software for people who do recruiting. Pure and simple.
 
@@ -81,9 +81,7 @@ OpenCATS will walk you through the process, including the sales cycle, from buil
 For internal recruiting, all recruiting can be done by checking the “Internal posting” check-box on the job order. Departments can be created and customized within any organization, and contacts added for those departments. OpenCATS can be as thorough and specific as you need it to be. For recruiting firms with external clients, each client can be tracked individually, even if they have multiple locations, departments and hiring managers. The flexibility is there within OpenCATS to ensure accuracy throughout the recruiting process.
 
 **Company branding:** OpenCATS can be branded for your organization, you can replace the OpenCATS logo with your company logo, and the public-facing job posting page and outgoing emails, can be changed to match the look of your company’s website and emails.
-
-**Resume storage, contact storage, applicant tracking and notes:** OpenCATS was built from the ground up for recruiting. It can handle hundreds of thousands of records and resumes with no issues. I am not sure what the upper limit is for how many records and resumes before OpenCATS starts to have issues, but I can comfortably say it would likely take an enterprise-environment for that to happen. For any small to mid-size company, there should be no issues on how much information your OpenCATS ATS can handle.
-
+www
 **Skills based tagging:** Initially, OpenCATS had resume parsing and resume search built in. Over time, that functionality has been lost. The development team is focused on implementing long term solutions that will allow parsing and keyword search in OpenCATS. In the meantime, skill tagging is included in OpenCATS, and serves as a very functional alternative to keyword searching.
 
 **Lists:** OpenCATS can make lists for whatever you need. Lead lists for sales?Yes. Candidate hot-sheets? Yes. List by geographic location? Yes. Anything you may need a list for, sales or recruiting, you can generate in OpenCATS for quick access. Lists can also be conveniently be exported as a csv file for any external applications.
