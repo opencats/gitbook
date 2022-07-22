@@ -14,7 +14,9 @@ The current OpenCATS release is 0.9.6 and the most recent release will always be
 
 ### Dependencies
 
-The main dependencies for this software are PHP and MariaDB. PHP 7.2 is the maximum level supported, and MariaDB 10.6. Higher levels may work, abut are untested! Note that MySQL is now unsupported due to some divergence between MariaDB and MySQL. Additional utilities (antiword, html2text, unrtf, etc)are requried for full-text indexing of uploaded resume's. This is not requied for installing OpenCATS, and can be added in later.
+The main dependencies for this software are PHP and MariaDB. PHP 7.2 and MariaDB 10.6 are the most recent versions supported. Higher levels may work, but are untested! 
+
+**Note:** MySQL is now unsupported due to some divergence between MariaDB and MySQL. Additional utilities (antiword, html2text, unrtf, etc)are requried for full-text indexing of uploaded resume's. These is not requied for installing OpenCATS, and can be added in later.
 
 ### Gentle Warning
 
