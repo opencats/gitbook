@@ -6,7 +6,7 @@ cover: .gitbook/assets/opencats-logo.png
 coverY: -19.322916666666668
 ---
 
-# opencats (current release 0.9.6)
+# opencats (current release 0.9.7)
 
 ### Release information[¶](broken-reference)
 
