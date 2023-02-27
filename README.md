@@ -10,7 +10,7 @@ coverY: -19.322916666666668
 
 ### Release information[¶](broken-reference)
 
-The current OpenCATS release is 0.9.6 and the most recent release will always be available at [https://github.com/opencats/opencats/releases](https://github.com/opencats/opencats/releases)
+The current OpenCATS release is 0.9.7 and the most recent release will always be available at [https://github.com/opencats/opencats/releases](https://github.com/opencats/opencats/releases)
 
 #### Dependencies
 The main dependencies for this software are PHP and MariaDB. PHP 7.2 and MariaDB 10.6 are the most recent versions supported. 
@@ -19,7 +19,7 @@ The main dependencies for this software are PHP and MariaDB. PHP 7.2 and MariaDB
 **Note:** MySQL is now unsupported due to some divergence between MariaDB and MySQL. MariaDB is a drop-in replacement for MySQL. Additional utilities (antiword, html2text, unrtf, etc) are necessary for full-text indexing of uploaded resume's. These are not required for installing OpenCATS, and can be added in later.
 
 #### Which package to install?
-If you want a simple install, then please check you've downloaded and installed the *-full package on the releases page [https://github.com/opencats/opencats/releases](https://github.com/opencats/opencats/releases) and not the source code or have cloned the master repository. If you've  done either of the last two, you'll need to download and run composer [https://getcomposer.org/)](https://getcomposer.org/) to pick up the dependencies which are already bundled in the -*full package. 
+If you want a simple install, then please check you've downloaded and installed the *-full package on the releases page [https://github.com/opencats/opencats/releases](https://github.com/opencats/opencats/releases) and not the source code or have cloned the master repository. If you've  done either of the last two, you'll need to download and run composer [https://getcomposer.org/)](https://getcomposer.org/) to pick up the dependencies which are already bundled in the -*full package. when running composer for a production installation, use _composer install --no-devs _ 
 
 ### and finally - a gentle warning
 
