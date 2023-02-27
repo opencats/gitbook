@@ -1,6 +1,6 @@
 # Table of contents
 
-* [>current release 0.9.6](README.md)
+* [>current release 0.9.7](README.md)
 * [Introduction and Overview](introduction-and-overview/README.md)
   * [Licensing](introduction-and-overview/licensing.md)
   * [Authors and Contributors](introduction-and-overview/authors-and-contributors.md)
