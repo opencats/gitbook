@@ -21,8 +21,8 @@ The main dependencies for this software are PHP and MariaDB. PHP 7.2 and MariaDB
 #### Which package to install?
 If you want a simple install, then please check you've downloaded and installed the *-full package on the releases page [https://github.com/opencats/opencats/releases](https://github.com/opencats/opencats/releases) and not the source code or have cloned the master repository. 
 
-If you've  done either of the last two, you'll need to download and run composer [https://getcomposer.org/)](https://getcomposer.org/) to pick up the dependencies which are already bundled in the -*full package. 
-**to avoid pulling in development packages, run composer install with the --no-dev option**
+If you've  done either of the last two, you'll need to download and run composer [https://getcomposer.org/)](https://getcomposer.org/) to pick up the dependencies which are already bundled in the -*full package.  
+**To avoid pulling in development packages, run composer install with the --no-dev option**
 
 ``` 
 composer install --no-dev
