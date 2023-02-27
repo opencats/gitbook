@@ -19,7 +19,14 @@ The main dependencies for this software are PHP and MariaDB. PHP 7.2 and MariaDB
 **Note:** MySQL is now unsupported due to some divergence between MariaDB and MySQL. MariaDB is a drop-in replacement for MySQL. Additional utilities (antiword, html2text, unrtf, etc) are necessary for full-text indexing of uploaded resume's. These are not required for installing OpenCATS, and can be added in later.
 
 #### Which package to install?
-If you want a simple install, then please check you've downloaded and installed the *-full package on the releases page [https://github.com/opencats/opencats/releases](https://github.com/opencats/opencats/releases) and not the source code or have cloned the master repository. If you've  done either of the last two, you'll need to download and run composer [https://getcomposer.org/)](https://getcomposer.org/) to pick up the dependencies which are already bundled in the -*full package. when running composer for a production installation, use _composer install --no-devs _ 
+If you want a simple install, then please check you've downloaded and installed the *-full package on the releases page [https://github.com/opencats/opencats/releases](https://github.com/opencats/opencats/releases) and not the source code or have cloned the master repository. 
+
+If you've  done either of the last two, you'll need to download and run composer [https://getcomposer.org/)](https://getcomposer.org/) to pick up the dependencies which are already bundled in the -*full package. 
+**to avoid pulling in development packages, run composer install with the --no-dev option**
+
+``` 
+composer install --no-dev
+``` 
 
 ### and finally - a gentle warning
 
