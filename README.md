@@ -6,11 +6,11 @@ cover: .gitbook/assets/opencats-logo.png
 coverY: -19.322916666666668
 ---
 
-# opencats (current release 0.9.7)
+# opencats (current release 0.9.7.2)
 
 ### Release information[¶](broken-reference)
 
-The current OpenCATS release is 0.9.7 and the most recent release will always be available at [https://github.com/opencats/opencats/releases](https://github.com/opencats/opencats/releases)
+The current OpenCATS release is 0.9.7.2 and the most recent release will always be available at [https://github.com/opencats/opencats/releases](https://github.com/opencats/opencats/releases)
 
 #### Dependencies
 The main dependencies for this software are PHP and MariaDB. PHP 7.2 and MariaDB 10.6 are the most recent versions supported. 
