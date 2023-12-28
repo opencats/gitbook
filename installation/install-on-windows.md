@@ -6,14 +6,14 @@ Installation instructions are given for the XAMPP default install environment on
 
 ### Downloading software and preparing your system[¶](broken-reference)
 
-* Download - [XAMPP](https://www.apachefriends.org/xampp-files/5.6.28/xampp-win32-5.6.28-1-VC11-installer.exe)
+* Download - [XAMPP](https://www.apachefriends.org/download.html)
 * Install XAMPP
 
 Note
 
 You need to run MariaDB 10 and PHP 7.2, if there are various XAMPP options available, get the one with these package versions!!
 
-* Download - [OpenCATS-0.9.6-FULL](https://github.com/opencats/OpenCATS/releases/download/0.9.6/opencats-0.9.6-full.zip). You can not install this yet.
+* Download - [OpenCATS-0.9.7.2-FULL](https://github.com/opencats/OpenCATS/releases/download/v0.9.7.2/OpenCATS-v0.9.7.2-FULL.zip). You can not install this yet.
 * Extract the file to `C:xampp\htdocs`&#x20;
 
 
