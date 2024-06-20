@@ -13,7 +13,7 @@ Note
 
 You need to run MariaDB 10 and PHP 7.2, if there are various XAMPP options available, get the one with these package versions!!
 
-* Download - [OpenCATS-0.9.6-FULL](https://github.com/opencats/OpenCATS/releases/download/0.9.6/opencats-0.9.6-full.zip). You can not install this yet.
+* Download - [OpenCATS-v0.9.7.2-FULL](https://github.com/opencats/OpenCATS/releases/download/v0.9.7.2/OpenCATS-v0.9.7.2-FULL.zip). You can not install this yet.
 * Extract the file to `C:xampp\htdocs`&#x20;
 
 
@@ -26,23 +26,23 @@ You need to run MariaDB 10 and PHP 7.2, if there are various XAMPP options avail
 
 Note
 
-ONLY start the Apache and MySql services. You do NOT need any of the other services.
+ONLY start the Apache and MySQL services. You do NOT need any of the other services.
 
 ![\_images/start-services-xampp.png](<../../.gitbook/assets/start services xampp>)
 
-* Stop the apache service (lower right corner, right click XAMPP, stop apache)
-* Start the apache service
+* Stop the Apache service (lower right corner, right click XAMPP, stop apache)
+* Start the Apache service
 
 ### OPTIONAL - Renaming your OpenCATS directory[¶](broken-reference)
 
-The current default directory name for the OpenCATS files is OpenCATS-0.9.6. This will result in the web address in your browser being [http://localhost/OpenCATS-0.9.](http://localhost/OpenCATS-0.9.4-3)6
+The current default directory name is `OpenCATS`. This will result in the web address in your browser being [http://localhost/OpenCATS](http://localhost/OpenCATS)
 
-If you want to rename the main OpenCATS directory to something else, you can do it now.
+If you want to rename the main OpenCATS directory to something else, here's how to do it:
 
-* Simply navigate to `C:\xampp\htdocs`
-* Right click on the OpenCATS directory
+* Navigate to `C:\xampp\htdocs`
+* Right click on the `OpenCATS` directory
 * Click `rename`
-* Rename the directory whatever you want (example: ATS)
+* Rename the directory whatever you want (example: `ATS`)
 
 Now, to access it, your browser address will be [http://localhost/ATS](http://localhost/ATS)
 
@@ -52,7 +52,7 @@ Now, to access it, your browser address will be [http://localhost/ATS](http://lo
 
 Note
 
-If phpmyadmin does not load in this screen, stop and start your apache service again per the instructions above.
+If phpMyAdmin does not load in this screen, stop and start your Apache service again per the instructions above.
 
 * On the left side, click `new` to create a new database
 
@@ -61,7 +61,7 @@ If phpmyadmin does not load in this screen, stop and start your apache service a
 * In the box labelled `database name` type `opencats`.
 * Hit `create`
 
-**NOTE: The default encoding for new databases in MariaDB is latin-1 which will have problems with non-english characters. If you will encounter any non-english characters, please create your databases and select  UTF-8 encoding and collation;**\
+**NOTE: The default encoding for new databases in MariaDB is latin-1 which will have problems with non-English characters. If you will encounter any non-English characters, please create your databases and select  UTF-8 encoding and collation;**\
 ****\
 ******CHARACTER SET utf8** \
 **COLLATION utf8\_general\_ci**;&#x20;
@@ -70,7 +70,7 @@ If phpmyadmin does not load in this screen, stop and start your apache service a
 
 You should now see “opencats” listed among the databases on the left.
 
-* Click the opencats database
+* Click the `opencats` database
 * In the top row of tabs, on the right side of the screen, click `privileges`
 * Click `add user account`
 
@@ -78,7 +78,7 @@ You should now see “opencats” listed among the databases on the left.
 
 * User name, make sure `use text field` is selected, in the empty box next to it type `opencats`
 * Host name: In the first box, select `local` from the drop-down options. The second box should say `localhost`
-* Type opencats for the database password twice
+* Type `opencats` for the database password twice
 * In the “database for user account section”, confirm that the third checkbox `Grant all privileges on database "opencats"` is checked.
 * Scroll down to the bottom and click `go`
 
