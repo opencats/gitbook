@@ -23,4 +23,4 @@ This is not a comprehensive list of people who have developed and contributed to
 * Bloafer
 * cptr13
 
-If anyone has been forgotten, please let us know! Opencatsdocs at gmail
+If anyone has been forgotten, please let us know! [opencatsdocs@gmail.com](mailto:opencatsdocs@gmail.com)
