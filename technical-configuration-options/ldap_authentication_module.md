@@ -1,21 +1,49 @@
-# LDAP\_Authentication\_module
+# LDAP Authentication
 
-\###LDAP Authentication module
+OpenCATS supports SQL authentication, LDAP authentication, and mixed SQL plus LDAP authentication through `AUTH_MODE` in `config.php`.
 
-\*\*\* Note that LDP integration has been updated and included by default - see INSTALL.MD for info, or some of the LDPA commit info e.g. [https://github.com/opencats/OpenCATS/commit/525f110dd0652d53958f6adf2c7f57a48b6f229e](https://github.com/opencats/OpenCATS/commit/525f110dd0652d53958f6adf2c7f57a48b6f229e)&#x20;
+## Authentication modes
 
+```php
+define('AUTH_MODE', 'sql');
+```
 
+Supported values are:
 
-Please read the README before using the plugin.
+* `sql` - OpenCATS authenticates users against the OpenCATS database.
+* `ldap` - OpenCATS authenticates users through LDAP.
+* `sql+ldap` - OpenCATS can use both SQL and LDAP authentication paths.
 
-**Active Directory**
+## Requirements
 
-I've been working to try and get this plugin to auth against active directory. I use this model but it does not seem to work.
+LDAP authentication requires the PHP LDAP extension. The repository Docker image installs the LDAP extension in its PHP container.
 
-&#x20;  `define ('AUTH_MODE', 'ldap'); // Currently supports ldap, sql` `define ('LDAP_HOST', 'ldap_server');` `define ('LDAP_PORT', '389');` `define ('LDAP_BASEDN', 'ou=users,ou=company,dc=local,dc=domain');` `define ('LDAP_UID', 'sAMAccountName');` `define ('LDAP_CONNECT_DN', 'uid=test,ou=users,ou=company,dc=local,dc=domain');` `define ('LDAP_PASSWORD', 'test123');`
+## Example settings
 
-Not sure if this is an issue with the code right now or not. Like the user in the thread this came from it does not seem to work with sAMAccountName or uid.
+Your exact LDAP settings depend on your directory server. A typical configuration uses values like these in `config.php`:
 
+```php
+define('AUTH_MODE', 'ldap');
+define('LDAP_HOST', 'ldap.example.org');
+define('LDAP_PORT', '389');
+define('LDAP_BASEDN', 'ou=users,dc=example,dc=org');
+define('LDAP_UID', 'uid');
+define('LDAP_CONNECT_DN', 'cn=readonly,dc=example,dc=org');
+define('LDAP_PASSWORD', 'readonly-password');
+```
 
+For Active Directory, `LDAP_UID` is often `sAMAccountName`, but this depends on your directory design.
 
-\[**ADD - needs to be updated to reflect current codebase**]
+## Troubleshooting
+
+If LDAP login fails:
+
+* Confirm the PHP LDAP extension is installed and enabled.
+* Confirm the OpenCATS server can reach the LDAP host and port.
+* Confirm bind DN and password are valid.
+* Confirm `LDAP_BASEDN` points to the subtree containing users.
+* Confirm `LDAP_UID` matches the attribute users enter at login.
+* Check whether your directory requires LDAPS, StartTLS, or firewall changes.
+* Test with `sql` mode first to separate database/application issues from LDAP issues.
+
+Do not publish LDAP bind credentials in public repositories or screenshots.

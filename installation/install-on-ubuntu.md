@@ -1,95 +1,111 @@
 # Install on Ubuntu
 
-These instructions will walk you through setting up LAMP (Linux Apache Mysql PHP) software and install OpenCATS on a Ubuntu  machine. These instructions will work with a VPS, or a home/office machine.
+These instructions describe a Linux/Apache/MariaDB/PHP installation path for OpenCATS 0.10.0. Commands may need small adjustments for your Ubuntu release and package repositories.
 
-### Ubuntu -Installing pre-reqs[¶](broken-reference)
+## Install MariaDB and Apache
 
-**Note**
-
-mysql and mariadb have diverged somewhat in base functionality. Whereas MariaDB and MySQL were interchangable in previous releases, now only MariaDB is supported. If you need to move from MySQL to MariaDB it's as simple as installing MariaDB over MySQL.&#x20;
-
-* `$ sudo apt-get update`
-* `$ sudo apt-get install mariadb-server mariadb-client`
-* `$ sudo mysql_secure_installation`\
-  ``
-* `$ sudo apt-get install apache2`
-
-**Note for PHP 7.2**\
-****Versions higher than PHP7.2 are not currently supported
-
-
-
-1: add the PPA maintained by Ondrej Surý
-
+```bash
+sudo apt-get update
+sudo apt-get install mariadb-server mariadb-client apache2 unzip wget
+sudo mysql_secure_installation
 ```
+
+MariaDB is the documented database family for OpenCATS. Current CI Docker tests use MariaDB 10.7.
+
+## Install PHP 7.4 and extensions
+
+OpenCATS 0.10.0 requires PHP 7.4. If your Ubuntu release does not provide PHP 7.4 packages directly, use a trusted package source such as the Ondrej Surý PHP PPA.
+
+```bash
 sudo add-apt-repository ppa:ondrej/php
+sudo apt-get update
+sudo apt-get install php7.4 php7.4-cli php7.4-fpm php7.4-mysql php7.4-gd php7.4-soap php7.4-ldap php7.4-xml php7.4-curl php7.4-mbstring php7.4-zip
+sudo systemctl restart apache2
 ```
 
-2: install PHP versions 7.2
+Depending on your Apache configuration, you may use PHP-FPM or an Apache PHP module. Confirm that the web server is actually using PHP 7.4 before running the installer.
 
-```
-sudo apt install php7.2
-```
+## Optional document parsing utilities
 
-3: Select the standard version of PHP
+Install these if you want OpenCATS to extract text from common resume and document formats:
 
-```
-sudo update-alternatives --set php /usr/bin/php7.2
+```bash
+sudo apt-get install antiword poppler-utils html2text unrtf
 ```
 
-* `$ sudo apt-get install php7.2 php7.2-soap php7.2-ldap`
-* `$ sudo apt-get install php7.2-mysqli php7.2-gd php7.2-xml`
-* `$ sudo apt-get install php7.2-curl php7.2-mbstring php7.2-zip`
-* `$ sudo service apache2 restart`
+After installation, verify or update the parser paths in `config.php` if your distribution installs binaries in non-standard locations.
 
-### Setting up your MySQL/MariaDB database[¶](broken-reference)
+## Create the MariaDB database and user
 
-**Note**
+Log in to MariaDB as root:
 
-**This is the backend database that stores all your OpenCATS information. You likely will NOT be messing with this much after installation unless you choose to. The login/password you set up here will NOT be the same as your login/password for OpenCATS.**
+```bash
+sudo mysql -u root -p
+```
 
-**NOTE: The default encoding for new databases in MariaDB is latin-1 which will have problems with non-english characters. If you will encounter any non-english characters, please creaet your databases with UTF-8 encoding (shown in bold, below)**
+Then create a database and user. Replace `databasepassword` with a strong unique password.
 
-* `$ sudo mysql -u root -p`
+```sql
+CREATE DATABASE opencats CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE USER 'opencats'@'localhost' IDENTIFIED BY 'databasepassword';
+GRANT ALL PRIVILEGES ON opencats.* TO 'opencats'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+```
 
-It will ask you for your Ubuntu Root password
+These database credentials are separate from your OpenCATS application login.
 
-Then it will ask you for your mysql root password
+## Download OpenCATS
 
-* You should see a prompt like this: `MariaDB [(none)]>`
-* MariaDB \[(none)]> `CREATE USER` [`‘opencats’@’localhost`](mailto:'opencats'%40'localhost)`’ IDENTIFIED BY ‘databasepassword’;`
-* MariaDB \[(none)]> `CREATE DATABASE opencats;`\
-  OR WITH UTF-8; **`CREATE DATABASE opencats CHARACTER SET utf8 COLLATE utf8_general_ci`**`;`&#x20;
-* MariaDB \[(none)]> `GRANT ALL PRIVILEGES ON opencats.* TO` [`‘opencats’@’localhost`](mailto:'opencats'%40'localhost)`’ IDENTIFIED BY ‘databasepassword’;`
-* MariaDB \[(none)]> `exit;`
+Download the latest release archive from [GitHub Releases](https://github.com/opencats/OpenCATS/releases). For OpenCATS 0.10.0, an example release archive workflow is:
 
-Note
+```bash
+cd /var/www/html
+sudo wget https://github.com/opencats/OpenCATS/releases/download/v0.10.0/opencats-v0.10.0.zip
+sudo unzip opencats-v0.10.0.zip -d opencats
+```
 
-Make sure you don’t forget the ; on the end of every line!
+If the release asset name differs, use the exact filename shown on GitHub Releases.
 
-### Download the OpenCATS files[¶](broken-reference)
+## Installing from source instead
 
-* `$ cd /var/www/html`
-* `$ sudo wget`[`https://github.com/opencats/OpenCATS/releases/download/0.9.6/opencats-0.9.6-full.zip`](https://github.com/opencats/OpenCATS/releases/download/0.9.6/opencats-0.9.6-full.zip)``
-* `$ sudo unzip opencats-0.9.6-full.zip`
-* `$ sudo mv opencats-0.9.6 opencats`
-* `$ rm /var/www/html/opencats/INSTALL_BLOCK`
+If you clone the repository or download source code instead of using a prepared release archive, install Composer dependencies:
 
-Note
+```bash
+cd /var/www/html/opencats
+composer install --no-dev
+```
 
-By default in this documentation for OpenCATS version 0.9.6 the directory would be `opencats`. You can name it whatever you want. Just remember that all of the directory locations from here on must match the name of the directory you create, including capitol letters.
+Use `--no-dev` for production-style installs.
 
-Note
+## Configure ownership and permissions
 
-If you have tried installing OpenCATS before, or for any reason see something called INSTALL\_BLOCK in this directory, you MUST delete it. This will prevent OpenCATS from running the installer. The command for that would be `$ sudo rm INSTALL_BLOCK`.
+The web server user must own or be able to write OpenCATS runtime directories:
 
-### Server and Directory permissions[¶](broken-reference)
+```bash
+sudo chown -R www-data:www-data /var/www/html/opencats
+sudo chmod 750 /var/www/html/opencats
+sudo chmod 770 /var/www/html/opencats/attachments
+sudo chmod 770 /var/www/html/opencats/upload
+sudo chmod 770 /var/www/html/opencats/temp
+```
 
-* `$ sudo chown www-data:www-data opencats`
-* `$ sudo chown -R www-data:www-data opencats`
-* `$ sudo chmod 770 opencats/attachments`
-* `$ sudo chmod 770 opencats/upload`
+If you restore from a GUI backup file, also create and make a `restore/` directory writable by the web server user.
 
-Now go to [Run the installer](run-the-installer.md)
+## Start the installer
 
-###
+Open your browser at your OpenCATS URL, for example:
+
+```text
+http://your-server/opencats/
+```
+
+If an `INSTALL_BLOCK` file exists before first install, remove it so the installer can run:
+
+```bash
+sudo rm /var/www/html/opencats/INSTALL_BLOCK
+```
+
+After installation, confirm `INSTALL_BLOCK` exists so the installer is not exposed again.
+
+Now continue to [Run the Installer](run-the-installer.md).

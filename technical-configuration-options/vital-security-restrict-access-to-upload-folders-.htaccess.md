@@ -1,105 +1,85 @@
 # Vital Security: Restrict access to upload folders (.htaccess)
 
-To restrict accessing / executing php or other scripts from uploads or other restricted folders, use this code in .htaccess file put in that upload folder. If possible please have ownership of this .htaccess file as root and not your web server to prevent overwriting.
+OpenCATS performs server-side upload extension validation, but you should still configure your web server so uploaded files cannot execute as scripts. Treat web server restrictions as defense in depth.
 
-This is syntax for an Apache webserver.
+## Upload directories
 
-### 1. Ownership
+Review restrictions for these directories:
 
-Ensure your upload directories are owned by whatever process runs your web server (usually www-data or apache) - and ensure permissions are set to 766 - 755 if this causes problems, and never 777!\
-(I would prefer 666 but this seems to break the app)
+* `opencats/upload`
+* `opencats/attachments`
 
-`chown apache:apache -R uploads/`\
-`chmod 766 -R uploads/`
+The web server user must be able to write files OpenCATS needs, but uploaded content should not be executable. Avoid permissions such as `777` unless your hosting environment leaves no safer option.
 
-I would set htaccess to be r/w by owner (root) and read by group/world
+Example ownership and permissions on many Linux systems:
 
-`chmod 644 .htaccess`
+```bash
+sudo chown -R www-data:www-data upload attachments
+sudo chmod 770 upload attachments
+```
 
-### 2 .htaccess
+## Current allowed upload extensions
 
-SO if possible I wouldn't use .htaccess, and use the main config file instead (Allow Overrides none) but if you do, then follow this guidance. Generally, htaccess is owned by the web process (www-data or apache) however in this instance as opencats will not rewrite it, it's more secure if .htaccess is owned and writable by root only.
+Current OpenCATS upload validation allows these extensions:
 
-This would need a htaccess of this type installed in
+```text
+bmp, csv, doc, docx, heic, jpeg, jpg, msg, odg, odt, pages, pdf, png, ppt, pptx, rtf, tiff, wpd, wps, xls, xlsx, xps
+```
 
-* opencats/upload, and
-* opencats/attachments
+Your web server allow-list should be no broader than the file types you actually need.
 
-#### for Apache 2.2
+## Apache 2.4 `.htaccess` example
 
-`# Don't list directory contents`\
-`IndexIgnore *`\
-`# Disable script execution`\
-`AddHandler cgi-script .php .php2 .php3 .php4 .php5 .php6 .php7 .php8 .php9 .pl .py .js .jsp .asp .htm .html .shtml .sh .cgi`
+Place an `.htaccess` file in each upload directory if your Apache configuration allows overrides:
 
-`Options -ExecCGI -Indexes`\
-\
-`# Only the following file extensions are allowed (pdf, rtf, odt, doc, docx, txt, wpd)`\
-`Order Allow,Deny`\
-`Deny from all`\
-\
-`<FilesMatch "\.([Pp][Dd][Ff]|[Dd][Oo][Cc][Xx]?|[Rr][Tt][Ff]|[Oo][Dd][Tt]|[Tt][Xx][Tt]|[Ww][Pp][Dd])$">`
+```apache
+IndexIgnore *
+Options -ExecCGI -Indexes
+AddHandler cgi-script .php .php2 .php3 .php4 .php5 .php6 .php7 .php8 .php9 .pl .py .js .jsp .asp .sh .cgi
 
-`Allow from all`\
-`</FilesMatch>`
+<FilesMatch "(?i)\.(bmp|csv|docx?|heic|jpe?g|msg|odg|odt|pages|pdf|png|pptx?|rtf|tiff?|wpd|wps|xlsx?|xps)$">
+    Require all granted
+</FilesMatch>
+```
 
-#### On Apache 2.4 the syntax changes - therefore
+For stronger control, put equivalent rules in the main Apache virtual host or server configuration and disable `.htaccess` overrides.
 
-`IndexIgnore *`\
-`# Disable script execution`\
-`AddHandler cgi-script .php .php2 .php3 .php4 .php5 .php6 .php7 .php8 .php9 .pl .py .js .jsp .asp .htm .html .$`
+## Apache server configuration example
 
-`Options -ExecCGI -Indexes`
+```apache
+<Directory /var/www/html/opencats/upload>
+    IndexIgnore *
+    Options -ExecCGI -Indexes
+    AddHandler cgi-script .php .php2 .php3 .php4 .php5 .php6 .php7 .php8 .php9 .pl .py .js .jsp .asp .sh .cgi
+    <FilesMatch "(?i)\.(bmp|csv|docx?|heic|jpe?g|msg|odg|odt|pages|pdf|png|pptx?|rtf|tiff?|wpd|wps|xlsx?|xps)$">
+        Require all granted
+    </FilesMatch>
+</Directory>
 
-`#grant access if word-processing format`\
-`<FilesMatch "(?i)\.(pdf|docx?|rtf|odt?g?|txt|wpd|jpe?g|png|csv|xlsx?|ppt|msg|heic|tiff?|html?|bmp|wps|xps)$">` `Require all granted`\
-`</FilesMatch>`
+<Directory /var/www/html/opencats/attachments>
+    IndexIgnore *
+    Options -ExecCGI -Indexes
+    AddHandler cgi-script .php .php2 .php3 .php4 .php5 .php6 .php7 .php8 .php9 .pl .py .js .jsp .asp .sh .cgi
+    <FilesMatch "(?i)\.(bmp|csv|docx?|heic|jpe?g|msg|odg|odt|pages|pdf|png|pptx?|rtf|tiff?|wpd|wps|xlsx?|xps)$">
+        Require all granted
+    </FilesMatch>
+</Directory>
+```
 
-**Finally of course - test, test, test.. once you add your htaccess file, please try to upload valid and invalid files.**
+Adjust paths for your installation.
 
-### 3. /etc/apache/apache.conf instead
+## Test after changes
 
-So the most secure option is to configure your restrictions in apache.conf and to ignore .htaccess files (so if for some reason someone managed to upload a .htaccess file then it'll be ignored)
+After changing upload restrictions:
 
-For Opencats, sample restrictions to add to apache.conf config would be as below;
+* Upload a valid document and confirm OpenCATS can attach and download it.
+* Try uploading an invalid script file and confirm OpenCATS rejects it.
+* Try browsing directly to uploaded content and confirm scripts cannot execute.
+* Review web server logs for unexpected denials or executable handling.
 
-`<Directory /var/www/>`\
-`Options -Indexes +FollowSymLinks`\
-`AllowOverride None`\
-`Require all granted`\
-`</Directory>`
+## Reference material
 
-`<Directory /var/www/html/OpenCATS-0.9.6/upload>`\
-`IndexIgnore *`\
-`# Disable script execution`\
-`AddHandler cgi-script .php .php2 .php3 .php4 .php5 .php6 .php7 .php8 .php9 .pl .py .js .jsp .asp .htm .html .$`\
-`Options -ExecCGI -Indexes`\
-`# Only permit particular filetypes`\
-`<FilesMatch "(?i)\.(pdf|docx?|rtf|odt?g?|txt|wpd|jpe?g|png|csv|xlsx?|ppt|msg|heic|tiff?|html?|bmp|wps|xps)$">`\
-`Require all granted`\
-`</FilesMatch>`\
-`</Directory>`
-
-`<Directory /var/www/html/OpenCATS-0.9.6/attachments>`\
-`IndexIgnore *`\
-`# Disable script execution`\
-`AddHandler cgi-script .php .php2 .php3 .php4 .php5 .php6 .php7 .php8 .php9 .pl .py .js .jsp .asp .htm .html .$`\
-`Options -ExecCGI -Indexes`\
-`<FilesMatch "(?i)\.(pdf|docx?|rtf|odt?g?|txt|wpd|jpe?g|png|csv|xlsx?|ppt|msg|heic|tiff?|html?|bmp|wps|xps)$">`\
-`Require all granted`\
-`</FilesMatch>`\
-`</Directory>`
-
-### Reference material
-
-https://blog.devolutions.net/2019/12/how-to-prevent-file-upload-vulnerabilities
-
-https://stackoverflow.com/questions/5689423/how-to-ban-all-executable-files-on-apache
-
-https://stackoverflow.com/questions/6368777/how-to-prevent-uploaded-file-from-being-executed
-
-https://www.sitepoint.com/community/t/securing-image-upload-directory-via-htaccess/44659
-
-https://tomolivercv.wordpress.com/2011/07/24/protect-your-uploads-folder-with-htaccess/
-
-https://github.com/Leuchtfeuer/typo3-secure-downloads/blob/master/Resources/Private/Examples/\_.htaccess
+* https://blog.devolutions.net/2019/12/how-to-prevent-file-upload-vulnerabilities
+* https://stackoverflow.com/questions/5689423/how-to-ban-all-executable-files-on-apache
+* https://stackoverflow.com/questions/6368777/how-to-prevent-uploaded-file-from-being-executed
+* https://www.sitepoint.com/community/t/securing-image-upload-directory-via-htaccess/44659

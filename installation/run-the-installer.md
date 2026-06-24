@@ -1,44 +1,96 @@
 # Run the Installer
 
-### Install the OpenCATS software[¶](broken-reference)
+After the web server, PHP, MariaDB database, OpenCATS files, and directory permissions are ready, open OpenCATS in your browser.
 
-In your browser, go to localhost/opencats (Or use the address of your server or VPS in place of “localhost”).
+For a local installation, use:
 
+```text
+http://localhost/opencats/
+```
 
+For a server or VPS, use the hostname and path you configured.
 
-![\_images/installation-wizard.png](<../../.gitbook/assets/installation wizard>)
+## If the installer does not start
 
+OpenCATS starts the installer when `INSTALL_BLOCK` is missing. If you are doing a first-time installation and the installer does not appear, check whether `INSTALL_BLOCK` exists in the OpenCATS directory and remove it only for the installation step.
 
+After installation or upgrade, confirm `INSTALL_BLOCK` exists again so the installer is not exposed.
 
-**Note: Database connectivity**
+## Database connectivity
 
-If you are running OpenCATS locally on your computer, or on some shared hosts, the host address will be localhost. If your server, VPS (some shared hosting too), you will need to enter the specific address to access.
+Enter the MariaDB database name, user, password, and host you created during installation.
 
-When you  `Test Database Connectivity,` I usually get red the first few tries after click the `test database connectivity` button. If you try more than a couple times and it stays red, you have either entered your db information incorrectly, or you have set your MySQL/MariaDB database up incorrectly. It needs to be corrected before proceeding.
+Common host values:
 
-**Note: Setup resume indexing**
+* `localhost` for a normal local Linux or Windows stack.
+* `opencatsdb` for the repository Docker Compose development environment.
+* A hosting-provider database hostname for shared hosting or managed database services.
 
-* Change the paths to the executables to the correct paths. You will need to find and install these separately. The software will work without them but resume indexing will be unavailable. YOu can always amend this after installation, and set the correct path in config.php. Normally, they should be as follows:
-* /usr/bin/antiword
-* /usr/bin/pdftotext
-* /usr/bin/html2text
-* /usr/bin/unrtf
+Use the installer database connectivity test before continuing. If the test fails, confirm:
 
-**Note: Mail Settings**
+* the database exists;
+* the database user has privileges on that database;
+* the password is correct;
+* the database host is reachable from the web server;
+* PHP has the MariaDB/MySQL extension installed.
 
-OpenCATS can send emails. If you don’t want to use it, you don’t have to. OpenCATS works great either way! If you're using gmail you will need to use app passwords to generate a unique application password. Opencats uses the project [PHPMailer](https://github.com/PHPMailer/PHPMailer) for email functions.&#x20;
+## Resume indexing and document parsing
 
-**Note:  Loading extras**
+OpenCATS can use external tools to extract text from uploaded resumes and documents. The installer may ask for paths to these tools. Typical Linux paths are:
 
-**zip code lookup** is deprecated and replaced in the codebase with a google address lookup. You will need to set this up later, and provide an API key (thank you, google!)\
-**\[ADD]**
+```text
+/usr/bin/antiword
+/usr/bin/pdftotext
+/usr/bin/html2text
+/usr/bin/unrtf
+```
 
-Note
+OpenCATS can be installed without these tools. Resume indexing and text extraction will be limited until you install the utilities and configure the paths in `config.php`.
 
-The default username and password for your new install is : admin/admin (all lowercase)
+## Mail settings
 
-Click `Start OpenCATS` for your login screen.
+OpenCATS can send mail through PHP mail, Sendmail, or SMTP. If you do not want OpenCATS to send email immediately, disable mail during installation and configure it later.
 
-![](../../.gitbook/assets/image.png)
+For SMTP, collect these values before enabling mail:
 
-If you are exposing your OpenCATS to the web (i.e. enabling the job portal) then remember to deploy .[htaccess security configuration.](../technical-configuration-options/vital-security-restrict-access-to-upload-folders-.htaccess.md) &#x20;
+* SMTP host
+* SMTP port
+* authentication username
+* authentication password or app password
+* security mode such as `tls` or `ssl`
+
+OpenCATS uses PHPMailer for email delivery.
+
+## Installation type
+
+The installer may offer options such as:
+
+* new installation;
+* demo/test data installation;
+* restore from backup;
+* use an existing OpenCATS database and perform required upgrades.
+
+For production upgrades, use the existing installation/upgrade path only after taking CLI backups and testing the upgrade on a copy of production data.
+
+## First login
+
+For a new installation, the default login is commonly:
+
+```text
+admin / admin
+```
+
+Change the administrator password immediately after logging in.
+
+## Post-install checklist
+
+After clicking `Start OpenCATS` and logging in:
+
+* Change the default administrator password.
+* Confirm `INSTALL_BLOCK` exists.
+* Confirm `attachments/`, `upload/`, and `temp/` permissions are no broader than necessary.
+* Configure upload-directory execution restrictions before exposing the career portal or accepting uploads.
+* Configure mail and scheduled reminders if needed.
+* Take an initial CLI database and attachments backup.
+
+If you are exposing OpenCATS to the web, review [Security](../technical-configuration-options/security.md) and [Vital Security: Restrict access to upload folders (.htaccess)](../technical-configuration-options/vital-security-restrict-access-to-upload-folders-.htaccess.md).

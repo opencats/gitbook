@@ -1,89 +1,76 @@
 # Install on Windows
 
-### Windows Prerequisites[¶](broken-reference)
+OpenCATS is known to be deployed in many Windows/WAMP/XAMPP environments. However, the OpenCATS project builds and tests in a Linux/Unix CI environment only. WAMP and XAMPP can work, but Windows-specific behavior is not covered by automated project testing.
 
-Installation instructions are given for the XAMPP default install environment only. WAMPP will also work if you prefer it. The steps will be a little different.
+## Windows prerequisites
 
-### Downloading software and preparing your system[¶](broken-reference)
+Install a Windows web stack that provides:
 
-* Download - [XAMPP](https://www.apachefriends.org/xampp-files/5.6.28/xampp-win32-5.6.28-1-VC11-installer.exe)
-* Install XAMPP
+* PHP 7.4
+* MariaDB
+* Apache or another PHP-capable web server
+* phpMyAdmin or another MariaDB administration tool
 
-Note
+XAMPP and WAMP are common choices. Select a package that includes PHP 7.4 or lets you install PHP 7.4.
 
-You need to run MariaDB 10 and PHP 7.2, if there are various XAMPP options available, get the one with these package versions!!
+## Download OpenCATS
 
-* Download - [OpenCATS-0.9.6-FULL](https://github.com/opencats/OpenCATS/releases/download/0.9.6/opencats-0.9.6-full.zip). You can not install this yet.
-* Extract the file to `C:xampp\htdocs`&#x20;
+Download the current release archive from [GitHub Releases](https://github.com/opencats/OpenCATS/releases). Extract it under your web root, for example:
 
+```text
+C:\xampp\htdocs\opencats
+```
 
+If you download source code or clone the repository instead of using a release archive, install Composer for Windows and run this from the OpenCATS directory:
 
-### Start Xampp[¶](broken-reference)
+```bat
+composer install --no-dev
+```
 
-* Click the Windows start button and type `xampp`
-* Hit `enter`. This will open the XAMPP control panel.
-* On the right side of Apache and MySQL, click `start` for each one.
+## Start Apache and MariaDB
 
-Note
+Open your XAMPP or WAMP control panel and start only the services you need:
 
-ONLY start the Apache and MySql services. You do NOT need any of the other services.
+* Apache
+* MariaDB/MySQL service provided by the stack
 
-![\_images/start-services-xampp.png](<../../.gitbook/assets/start services xampp>)
+Even if the control panel labels the service as MySQL, use a MariaDB-backed stack for the documented OpenCATS path.
 
-* Stop the apache service (lower right corner, right click XAMPP, stop apache)
-* Start the apache service
+## Create the database in phpMyAdmin
 
-### OPTIONAL - Renaming your OpenCATS directory[¶](broken-reference)
+Open phpMyAdmin, usually at:
 
-The current default directory name for the OpenCATS files is OpenCATS-0.9.6. This will result in the web address in your browser being [http://localhost/OpenCATS-0.9.](http://localhost/OpenCATS-0.9.4-3)6
+```text
+http://localhost/phpmyadmin/
+```
 
-If you want to rename the main OpenCATS directory to something else, you can do it now.
+Create a database named `opencats`. Use UTF-8 character set and collation when available, for example:
 
-* Simply navigate to `C:\xampp\htdocs`
-* Right click on the OpenCATS directory
-* Click `rename`
-* Rename the directory whatever you want (example: ATS)
+```sql
+CREATE DATABASE opencats CHARACTER SET utf8 COLLATE utf8_general_ci;
+```
 
-Now, to access it, your browser address will be [http://localhost/ATS](http://localhost/ATS)
+Create a database user, for example `opencats`, and grant that user all privileges on the `opencats` database. Use a strong password and save it for the installer.
 
-### Launch phpMyAdmin[¶](broken-reference)
+## Configure parser utility paths on Windows
 
-* In your browser, go to: [http://localhost/phpmyadmin/](http://localhost/phpmyadmin/)
+Document parser utilities are optional, but if you install them, Windows paths in `config.php` must use escaped backslashes. For example:
 
-Note
+```php
+define('ANTIWORD_PATH', 'C:\\antiword\\antiword.exe');
+define('PDFTOTEXT_PATH', 'C:\\path\\to\\pdftotext.exe');
+define('HTML2TEXT_PATH', 'C:\\path\\to\\html2text.exe');
+define('UNRTF_PATH', 'C:\\path\\to\\unrtf.exe');
+```
 
-If phpmyadmin does not load in this screen, stop and start your apache service again per the instructions above.
+## Run the installer
 
-* On the left side, click `new` to create a new database
+Open your browser at:
 
-![\_images/phpmyadmin-main.png](<../../.gitbook/assets/phpmyadmin main>)
+```text
+http://localhost/opencats/
+```
 
-* In the box labelled `database name` type `opencats`.
-* Hit `create`
+If an `INSTALL_BLOCK` file exists before first install, remove it so the installer can start. After installation, confirm `INSTALL_BLOCK` exists again so the installer is not left exposed.
 
-**NOTE: The default encoding for new databases in MariaDB is latin-1 which will have problems with non-english characters. If you will encounter any non-english characters, please create your databases and select  UTF-8 encoding and collation;**\
-****\
-******CHARACTER SET utf8** \
-**COLLATION utf8\_general\_ci**;&#x20;
-
-![\_images/phpmyadmin-newdb.png](<../../.gitbook/assets/phpmyadmin newdb>)
-
-You should now see “opencats” listed among the databases on the left.
-
-* Click the opencats database
-* In the top row of tabs, on the right side of the screen, click `privileges`
-* Click `add user account`
-
-![\_images/phpmyadmin-newuser.png](<../../.gitbook/assets/phpmyadmin newuser>)
-
-* User name, make sure `use text field` is selected, in the empty box next to it type `opencats`
-* Host name: In the first box, select `local` from the drop-down options. The second box should say `localhost`
-* Type opencats for the database password twice
-* In the “database for user account section”, confirm that the third checkbox `Grant all privileges on database "opencats"` is checked.
-* Scroll down to the bottom and click `go`
-
-![\_images/phpmyadmin-newuser2.png](<../../.gitbook/assets/phpmyadmin newuser2>)
-
-Now go to [Run the installer](run-the-installer.md)
-
-****
+Continue to [Run the Installer](run-the-installer.md).
