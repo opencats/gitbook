@@ -126,3 +126,15 @@ Success! We have a candidate in the pipeline!
 Note
 
 Make sure to Rate your candidates with the stars under **Match** on the bottom this screen. It will help with quick reference later on.
+
+## Current behavior notes for OpenCATS 0.10.0
+
+Recent OpenCATS versions changed several day-to-day workflows:
+
+* **Contact title is optional.** You can create a contact without entering a title if that information is not known.
+* **Job order state is optional.** Job orders can be saved without a state value when the role is remote, international, or otherwise not tied to a state/province.
+* **Activity date and time can be set manually.** The date/time when an activity happened is separate from the date/time when the record was created.
+* **Closed jobs are excluded from activity job references.** When logging activities, expect closed job orders to be hidden from active job reference lists.
+* **Status change notes are safely rendered by templates.** Do not rely on custom inline HTML being stored in activity notes.
+
+These changes make data entry more flexible while keeping activity history clearer.
