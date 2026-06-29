@@ -1,6 +1,6 @@
 # Introduction and Overview
 
-![](../../.gitbook/assets/opencats-logo.png)
+![](../../.gitbook/assets/opencats-logo.svg)
 
 OpenCATS is a free and open source, full-featured, web-based applicant tracking system, or ATS. It helps you manage the complete recruitment life-cycle from business development through finalizing a placement. It manages a huge range of information for you, including:
 

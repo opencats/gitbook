@@ -1,26 +1,15 @@
 # Authors and Contributors
 
-OpenCATS would not exist were it not for Asim Baig, the original Cognizo developers, and RussH. The OpenCATS community, myself included, are grateful for this.
+OpenCATS is maintained by the OpenCATS community.
 
-This is not a comprehensive list of people who have developed and contributed to CATS/OpenCATS over the years. If you have helped, and you are not listed, let us know and THANK YOU!
+## Contributing
 
-### Original CATS/Cognizo developers and contributors listed[¶](broken-reference)
+The application source code is maintained at:
 
-* Asim Baig
-* Will Buckner
-* Andrew Candals
-* Paul Canfield
-* Brian Hanson
-* Austin Smith
+[https://github.com/opencats/OpenCATS](https://github.com/opencats/OpenCATS)
 
-### OpenCATS Developers and contributors[¶](broken-reference)
+Documentation is maintained separately in the GitBook documentation repository.
 
-* RussH
-* Matias Lespiau
-* Kixy25
-* libregeek
-* skrchnavy
-* Bloafer
-* cptr13
+Before opening an application pull request, review the current contributor guidance in the application repository. Pull request titles must use this format:
 
-If anyone has been forgotten, please let us know! [opencatsdocs@gmail.com](mailto:opencatsdocs@gmail.com)
+If anyone has been forgotten, please let us know! [russh@opencats.org](mailto:russh@opencats.org)

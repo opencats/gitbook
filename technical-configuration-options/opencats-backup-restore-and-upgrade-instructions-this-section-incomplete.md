@@ -1,165 +1,116 @@
-# OpenCATS Backup/Restore and Upgrade Instructions-THIS SECTION INCOMPLETE!
+# Backup, Restore, and Upgrade
 
-The backup/restore and Upgrade processes are the same.
+This page describes the recommended backup, restore, and upgrade approach for OpenCATS.
 
-### Backup/Restore best practices and things to consider[¶](broken-reference)
+## Recommendation
 
-Any critical business software needs a backup and restore process in case of disaster. There are a few different ways to backup and restore your OpenCATS Applicant Tracking system. A few things to consider when setting your backup strategy: How often should you perform backups? How often should you test your backups? Where will you store your backups? Will you automate your backup process?
+Use **CLI database backups** and filesystem backups as your primary backup method. OpenCATS includes GUI backup features, but command-line database and attachment backups are easier to automate, inspect, test, and restore consistently.
 
-This documentation will not cover these things, except the backup testing, but they should considered in case something ever happens to your OpenCATS system.
+## What to back up
 
-### About this documentation/different environments[¶](broken-reference)
+A complete OpenCATS backup must include:
 
-We will cover two different ways to backup and restore your OpenCATS system.
+* The MariaDB database.
+* The `attachments/` directory.
+* The `upload/` directory if your workflow uses pending bulk imports.
+* `config.php` and any local web server configuration.
+* Any custom templates, patches, or integrations you maintain outside the database.
 
-* **GUI:** Graphical User Interface (Point and click). Built in to the OpenCATS system.
-* **Non-GUI:** A more typical, systems administrator approach to backup and restoring.
+## CLI database backup
 
-We will cover the different steps for:
+Replace database name, user, and output path with your own values:
 
-* Windows environment
-* Shared-hosting environments
-* Linux/VPS environments
+```bash
+mysqldump --single-transaction --routines --triggers -u opencats -p opencats > opencats-$(date +%F).sql
+```
 
-### Pros and Cons: GUI vs. Non-GUI[¶](broken-reference)
+Store backups somewhere other than the OpenCATS web directory.
 
-* The GUI, **when it works**, is far easier for non-technical users.
-* As far as I know, the GUI backup works in OpenCATS versions 0.9.1, 0.9.1a, and 0.9.4. I don’t think it works in any of the other versions. It is certainly worth a try if you want to.
-* Downloading the GUI generated backup file (catsbackup.bak) on certain shared hosting environments can also involve a few additional steps.
-* While the GUI backup restore process looks very simple, in my experience, the Non-GUI process is the simpler, and far more consistent way to go.
+## Attachments backup
 
-### GUI (Graphical, point and click)[¶](broken-reference)
+From the OpenCATS installation directory:
 
-OpenCATS has backup and restore functionality built in. It works in versions 0.9.1, 0.9.1a, and 0.9.4. I’m not sure about the versions in between.
+```bash
+tar -czf opencats-attachments-$(date +%F).tar.gz attachments/
+```
 
-**GUI Backup:**
+If your installation uses `upload/` for pending import files, back it up too:
 
-From the main screen:
+```bash
+tar -czf opencats-upload-$(date +%F).tar.gz upload/
+```
 
-* Click: `Settings`
-* Click: `Administration`
-* Click: `Site Backup`
+## Test your backups
 
-Note
+A backup is not complete until you have restored it in a separate test environment. Test restores should verify:
 
-`Create Attachments backup` will backup all the attachments in your OpenCATS system and allow you to export them for storage or redundancy. This **WILL NOT** allow you to restore your OpenCATS database if you need to recover your OpenCATS system or upgrade in the future.
+* users can log in;
+* candidates, companies, contacts, and job orders load;
+* attachments download correctly;
+* search and parsing features work if enabled;
+* email settings are not accidentally sending production email from a test system.
 
-Click: `Create Full System Backup`
+## Restore from CLI backup
 
-This will backup your entire OpenCATS ATS (attachments and database).
+1. Install OpenCATS files for the target version.
+2. Create a fresh MariaDB database and user.
+3. Import the SQL backup:
 
-Depending on the database size, this may take a few minutes. Let it finish and you should return to this screen with a downloadable link for catsbackup.bak
+   ```bash
+   mysql -u opencats -p opencats < opencats-backup.sql
+   ```
 
-Click the link, the file will download to your local computer. You can store it wherever you like if you need to recover your opencats system in the future.
+4. Restore `attachments/`:
 
-**GUI Restore**
+   ```bash
+   tar -xzf opencats-attachments-backup.tar.gz -C /path/to/opencats/
+   ```
 
-Go through the normal installation process for your environment. Do the following before you get to the final, GUI portion of the installation.
+5. Restore or recreate `config.php` with the correct database settings.
+6. Ensure writable directory ownership and permissions are correct.
+7. Run the installer/upgrade path only when intentionally upgrading an existing database.
+8. Confirm `INSTALL_BLOCK` exists after installation or upgrade.
 
-Create a directory called “restore” in the main OpenCATS directory.
+## Upgrade checklist
 
-Note
+Before upgrading production:
 
-If you’re using a VPS, or linux environment, make sure the directory permissions are writable. Refer to the “directory or file permissions section” and match the permissions of the uploads and attachments folders.
+* Read release notes for the target OpenCATS release.
+* Confirm your server meets the current PHP and MariaDB baseline.
+* Back up the database with `mysqldump`.
+* Back up `attachments/`, `upload/` if used, and `config.php`.
+* Test the upgrade on a copy of production data.
+* Schedule a maintenance window.
+* Have a rollback plan using the backups you just tested.
 
-Move the backup file that you want to restore into the newly created restore directory.
+## Upgrading OpenCATS files
 
-Note
+A typical upgrade flow is:
 
-When you create/save/store backup files, you can rename them however you want. When you restore from a backup file, it MUST be named catsbackup.bak. Make sure the name is correct before attempting the restore. OpenCATS won’t recognize any other file name/type.
+1. Put the site into maintenance or stop web traffic.
+2. Back up database and files.
+3. Deploy the new OpenCATS release files.
+4. Restore or merge the existing `config.php` settings carefully.
+5. Ensure Composer dependencies are installed if using source:
 
-Referring to the “Install the OpenCATS software” section of the installation walkthrough, on “Step 3: Loading Data”, choose the `Restore installation from backup` option.
+   ```bash
+   composer install --no-dev
+   ```
 
-![\_images/step3.png](../../.gitbook/assets/step3)
+6. Remove `INSTALL_BLOCK` only when you are ready to run the installer/upgrade workflow.
+7. Visit the site in a browser and choose the existing installation/upgrade path if presented.
+8. After upgrade, confirm `INSTALL_BLOCK` exists.
+9. Test login, records, attachments, reports, search, email, and scheduled reminders.
 
-It will ask you to confirm that you have uploaded the catsbackup.bak file into the restore directory. Check the box and click `continue`.
+## GUI backup and restore
 
-The rest of the installation should be normal.
+OpenCATS has GUI backup screens under Settings and Administration. These may be useful for small installations or quick exports, but CLI backups are the recommended operational backup method.
 
-This will put you into a newly restored OpenCATS system.
+If you use GUI restore, the backup file must be named `catsbackup.bak` and placed in a writable `restore/` directory under the OpenCATS installation before running the installer restore path.
 
-Note
+## Security notes
 
-As with any new OpenCATS installation, it will tell you the username and password is admin/admin. It is NOT. You will need the username and password from the prior OpenCATS installation that you restored.
-
-### Non-GUI[¶](broken-reference)
-
-The Non-GUI Backup/Restore steps are actually relatively simple. Again, we need to backup the OpenCATS attachments and database, then restore them.
-
-* Attachments-This is where all our documents, CVS, resumes, etc are stored.
-* Database-This is all the information that the OpenCATS system uses.
-
-Environments:
-
-* Shared hosting
-* Command line
-* Windows
-
-**Backup storage organization and file structure.**
-
-If you back up daily, you will need to consider some sort of way to organize your backup files. The Non-GUI approach will produce two files per backup (catsdatabasename.sql and attachments.zip). This is an example file/directory structure that I use.
-
-**Directory:** OpenCATS Backup files
-
-**Sub-Directory:** 7-1-17
-
-* Attachments.zip
-* opencats.sql
-
-**Sub-Directory:** 7-2-17
-
-* Attachments.zip
-* opencats.sql
-
-**Sub-Directory:** 7-3-17
-
-* Attachments.zip
-* opencats.sql
-
-etc.
-
-**Database Backup**
-
-Windows/Shared-hosting: Log in to phpmyadmin. Refer to the installation instructions, under the php or phpadmin sections, to get there.
-
-In the column, on the left side, you should see a list of your MySQL/MariaDB databases. Click on the name of your OpenCATS database. You should then see the following screen:
-
-Click the `Export` tab towards the top, center. You should ten see the following screen:
-
-Click `Go`. Phpmyadmin will generate the database backup file and you should automatically start downloading it.
-
-The file will be named after your database name with an sql extension. Mine, in this case, was named octest.sql.
-
-Make sure you move your file to a safe place.
-
-**Attachments backup**
-
-**Restore non-gui** In phpmyadmin: Select newly created database from list on the left Click import in the upper row browse select your opencatsdatabasebackup.sql file Scroll to the bottom and click “go”
-
-**Restore attachments**
-
-Install opencats
-
-### Testing your backups/Setting up a test environment to reuse[¶](broken-reference)
-
-### Changing your user passwords in phpmyadmin[¶](broken-reference)
-
-Try this
-
-**Restore non-gui** Create new database/user in phpmyadmin - Follow install documentation for this step if necessary
-
-In phpmyadmin: Select newly created database from list on the left Click import in the upper row browse select your opencatsdatabasebackup.sql file Scroll to the bottom and click “go” Create user (follow steps from documentation)
-
-Check for INSTALL\_BLOCK file or folder in opencats directory Install opencats
-
-Use existing OpenCATS installation and automatically preform any necessary upgrade (recommended).
-
-Merge/overwrite old attachments folder into new Opencats attachments directory
-
-In phpmyadmin: Create new database in phpmyadmin - Follow install documentation for this step if necessary Select newly created database from list on the left Click import in the upper row browse select your opencatsdatabasebackup.sql file Scroll to the bottom and click “go” Create user (follow steps from documentation) for the database and assign rights.
-
-In NEW opencats directory Check for INSTALL\_BLOCK file or folder in opencats directory Install opencats through browser
-
-When you get to the intall type step (new, demo, restore, etc. ) You should see: Use existing OpenCATS installation and automatically preform any necessary upgrade (recommended). Select that option.
-
-That should work. Post back with any questions/issues.
+* Do not keep backup files inside the public web root longer than necessary.
+* Protect SQL backups because they contain personal data and password hashes.
+* Protect attachment backups because they may contain resumes and other sensitive documents.
+* Do not expose restored test systems publicly with production data.

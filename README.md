@@ -1,34 +1,41 @@
 ---
 description: >-
   This documentation explains how to install, enhance and use OpenCATS, the free
-  open-source applicant tracking system 'opencats' available at opencats.org
-cover: .gitbook/assets/opencats-logo.png
+  open-source applicant tracking system available at opencats.org.
+cover: .gitbook/assets/opencats-logo.svg
 coverY: -19.322916666666668
 ---
 
-# >current release 0.9.7.4
+# Current release: 0.10.0
 
-### Release information[¶](broken-reference/)
+## Release information
 
-The current OpenCATS release is 0.9.7.4 and the most recent release will always be available at [https://github.com/opencats/opencats/releases](https://github.com/opencats/opencats/releases)
+The current OpenCATS application release documented here is **0.10.0**. The latest release packages are published at [https://github.com/opencats/OpenCATS/releases](https://github.com/opencats/OpenCATS/releases).
 
-#### Dependencies
+## Supported platform baseline
 
-The main dependencies for this software are PHP and MariaDB. PHP 7.2 and MariaDB 10.6 are the most recent versions supported. **Higher levels may work, but are untested**
+OpenCATS is built and tested in CI on a Linux/Unix environment with **PHP 7.4** and **MariaDB 10.7**. Other versions or platforms may work, but they are not the CI/CD baseline used by the project.
 
-**Note:** MySQL is now unsupported due to some divergence between MariaDB and MySQL. MariaDB is a drop-in replacement for MySQL. Additional utilities (antiword, html2text, unrtf, etc) are necessary for full-text indexing of uploaded resume's. These are not required for installing OpenCATS, and can be added in later.
+The main runtime dependencies are PHP, MariaDB, a web server, and the PHP extensions required by OpenCATS. Optional document parsing utilities such as `antiword`, `pdftotext`, `html2text`, and `unrtf` improve resume/document text extraction and search, but are not required just to complete installation.
 
-#### Which package to install?
+MySQL is not the documented database target. MariaDB is the recommended and tested database family for current OpenCATS deployments.
 
-If you want a simple install, then please check you've downloaded and installed the \*-full package on the releases page [https://github.com/opencats/opencats/releases](https://github.com/opencats/opencats/releases) and not the source code or have cloned the master repository.
+## Which package should I install?
 
-If you've done either of the last two, you'll need to download and run composer [https://getcomposer.org/)](https://getcomposer.org/) to pick up the dependencies which are already bundled in the -\*full package.\
-**To avoid pulling in development packages, run composer install with the --no-dev option**
+For a normal installation, download the release archive from GitHub Releases. Release archives are intended to be easier to install than a raw source checkout.
 
-```
+If you install from source, clone the repository, or download source code instead of a prepared release archive, install PHP dependencies with Composer:
+
+```bash
 composer install --no-dev
 ```
 
-### and finally - a gentle warning
+Use `--no-dev` for production so development and test packages are not installed. Developers who need to run the test suite should run Composer without `--no-dev`.
 
-This documentation is coming along nicely, albeit slowly. If you have corrections or requests for anything that should be included in this documentation, please submit a PR to this documentation on github (there's a link in the top right-hand corner of this page!).
+## Before upgrading
+
+Before upgrading an existing OpenCATS installation, take a CLI database backup, back up `attachments/`, preserve your `config.php`, and test the restore/upgrade process outside production first. See [Backup, Restore, and Upgrade](technical-configuration-options/opencats-backup-restore-and-upgrade-instructions-this-section-incomplete.md).
+
+## Documentation status
+
+This documentation is maintained by the OpenCATS community. If you find a mistake or a missing workflow, please submit a pull request to the GitBook documentation repository.
