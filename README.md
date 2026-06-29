@@ -2,7 +2,7 @@
 description: >-
   This documentation explains how to install, enhance and use OpenCATS, the free
   open-source applicant tracking system available at opencats.org.
-cover: .gitbook/assets/opencats-logo.png
+cover: .gitbook/assets/opencats-logo.svg
 coverY: -19.322916666666668
 ---
 
