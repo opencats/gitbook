@@ -74,10 +74,10 @@ For production upgrades, use the existing installation/upgrade path only after t
 
 ## First login
 
-For a new installation, the default login is commonly:
+For a new installation, the default login is:
 
 ```text
-admin / admin
+admin / cats
 ```
 
 Change the administrator password immediately after logging in.
