@@ -1,12 +1,13 @@
 # Prerequisites
 
-This page lists the current baseline for OpenCATS 0.10.0.
+This page lists the current baseline for OpenCATS 0.11.1.
 
 ## Tested CI/CD baseline
 
-OpenCATS is built and tested in CI on Linux with:
+OpenCATS requires PHP 8.4.1 or later within PHP 8. Project CI currently tests on Linux with:
 
-* PHP 7.4
+* PHP 8.4.1
+* PHP 8.5
 * Composer 2
 * MariaDB 10.7 for Docker-backed integration and Behat tests
 
@@ -15,9 +16,9 @@ Other PHP, database, operating system, or web server combinations may work, but 
 ## Required runtime components
 
 * A Linux/Unix web server environment such as Apache or Nginx with PHP-FPM.
-* PHP 7.4.
+* PHP 8.4.1 or later within PHP 8.
 * MariaDB. MariaDB 10.7 is used by current Docker test services.
-* Composer if you install from source rather than from a prepared release archive.
+* Composer if you install from source rather than from a prepared full release archive.
 * Writable OpenCATS directories for uploads, attachments, temporary files, and restore operations when used.
 
 ## PHP extensions
@@ -29,13 +30,13 @@ The repository Docker image installs the PHP extensions OpenCATS expects in that
 * `soap`
 * `zip`
 * `ldap`
-* `mcrypt`
+* `mbstring`
 
-On distribution packages, extension package names vary. Ubuntu-style package names are usually similar to `php7.4-mysqli`, `php7.4-gd`, `php7.4-soap`, `php7.4-zip`, and `php7.4-ldap`.
+On distribution packages, extension package names vary. Ubuntu-style PHP 8.4 package names are usually similar to `php8.4-mysql`, `php8.4-gd`, `php8.4-soap`, `php8.4-zip`, `php8.4-ldap`, and `php8.4-mbstring`.
 
 ## Composer dependencies
 
-OpenCATS runtime Composer dependencies include CKEditor, Sphinx search API support, PHPMailer, and FPDF. For production source installs, run:
+OpenCATS runtime Composer dependencies include CKEditor, Sphinx search API support, PHPMailer, FPDF, CAPTCHA support, and the `mbstring` extension. For production source installs, run:
 
 ```bash
 composer install --no-dev
