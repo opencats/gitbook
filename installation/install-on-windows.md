@@ -6,22 +6,22 @@ OpenCATS is known to be deployed in many Windows/WAMP/XAMPP environments. Howeve
 
 Install a Windows web stack that provides:
 
-* PHP 7.4
+* PHP 8.4.1 or later within PHP 8
 * MariaDB
 * Apache or another PHP-capable web server
 * phpMyAdmin or another MariaDB administration tool
 
-XAMPP and WAMP are common choices. Select a package that includes PHP 7.4 or lets you install PHP 7.4.
+OpenCATS CI currently tests PHP 8.4.1 and PHP 8.5. XAMPP and WAMP are common Windows choices, but make sure the version you install provides a compatible PHP release or allows you to configure one.
 
 ## Download OpenCATS
 
-Download the current release archive from [GitHub Releases](https://github.com/opencats/OpenCATS/releases). Extract it under your web root, for example:
+Download the current prepared **full** release archive from [GitHub Releases](https://github.com/opencats/OpenCATS/releases). The full release archive includes production Composer dependencies. Extract it under your web root, for example:
 
 ```text
 C:\xampp\htdocs\opencats
 ```
 
-If you download source code or clone the repository instead of using a release archive, install Composer for Windows and run this from the OpenCATS directory:
+If you download source code or clone the repository instead of using a prepared full release archive, install Composer for Windows and run this from the OpenCATS directory:
 
 ```bat
 composer install --no-dev
