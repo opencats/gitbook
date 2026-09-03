@@ -1,6 +1,6 @@
 # Install on Ubuntu
 
-These instructions describe a Linux/Apache/MariaDB/PHP installation path for OpenCATS 0.10.0. Commands may need small adjustments for your Ubuntu release and package repositories.
+These instructions describe a Linux/Apache/MariaDB/PHP installation path for OpenCATS 0.11.1. Commands may need small adjustments for your Ubuntu release and package repositories.
 
 ## Install MariaDB and Apache
 
@@ -12,18 +12,18 @@ sudo mysql_secure_installation
 
 MariaDB is the documented database family for OpenCATS. Current CI Docker tests use MariaDB 10.7.
 
-## Install PHP 7.4 and extensions
+## Install PHP 8.4 and extensions
 
-OpenCATS 0.10.0 requires PHP 7.4. If your Ubuntu release does not provide PHP 7.4 packages directly, use a trusted package source such as the Ondrej Surý PHP PPA.
+OpenCATS 0.11.1 requires PHP 8.4.1 or later within PHP 8. Project CI tests PHP 8.4.1 and PHP 8.5. If your Ubuntu release does not provide PHP 8.4 packages directly, use a trusted package source such as the Ondrej Surý PHP PPA.
 
 ```bash
 sudo add-apt-repository ppa:ondrej/php
 sudo apt-get update
-sudo apt-get install php7.4 php7.4-cli php7.4-fpm php7.4-mysql php7.4-gd php7.4-soap php7.4-ldap php7.4-xml php7.4-curl php7.4-mbstring php7.4-zip
+sudo apt-get install php8.4 php8.4-cli php8.4-fpm php8.4-mysql php8.4-gd php8.4-soap php8.4-ldap php8.4-xml php8.4-curl php8.4-mbstring php8.4-zip
 sudo systemctl restart apache2
 ```
 
-Depending on your Apache configuration, you may use PHP-FPM or an Apache PHP module. Confirm that the web server is actually using PHP 7.4 before running the installer.
+Depending on your Apache configuration, you may use PHP-FPM or an Apache PHP module. Confirm that the web server is actually using PHP 8.4.1 or later before running the installer.
 
 ## Optional document parsing utilities
 
@@ -57,19 +57,19 @@ These database credentials are separate from your OpenCATS application login.
 
 ## Download OpenCATS
 
-Download the latest release archive from [GitHub Releases](https://github.com/opencats/OpenCATS/releases). For OpenCATS 0.10.0, an example release archive workflow is:
+Download the latest prepared **full** release archive from [GitHub Releases](https://github.com/opencats/OpenCATS/releases). For OpenCATS 0.11.1:
 
 ```bash
 cd /var/www/html
-sudo wget https://github.com/opencats/OpenCATS/releases/download/v0.10.0/opencats-v0.10.0.zip
-sudo unzip opencats-v0.10.0.zip -d opencats
+sudo wget https://github.com/opencats/OpenCATS/releases/download/v0.11.1/opencats-v0.11.1-full.zip
+sudo unzip opencats-v0.11.1-full.zip -d opencats
 ```
 
-If the release asset name differs, use the exact filename shown on GitHub Releases.
+The full release archive includes production Composer dependencies. If a future release asset name differs, use the exact filename shown on GitHub Releases.
 
 ## Installing from source instead
 
-If you clone the repository or download source code instead of using a prepared release archive, install Composer dependencies:
+If you clone the repository or download source code instead of using a prepared full release archive, install Composer dependencies:
 
 ```bash
 cd /var/www/html/opencats
