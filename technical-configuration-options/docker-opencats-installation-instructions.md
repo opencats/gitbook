@@ -12,7 +12,7 @@ The repository Docker Compose setup starts these services:
 * `opencats_mariadb`: MariaDB database container.
 * `opencats_phpmyadmin`: phpMyAdmin container exposed on port `8080`.
 
-The PHP image is based on PHP 7.4 FPM Alpine and installs OpenCATS runtime tools and extensions, including document parser utilities, `mysqli`, `gd`, `soap`, `zip`, `ldap`, and `mcrypt`.
+The PHP image defaults to **PHP 8.4.1 FPM Alpine**. Project CI also builds the test stack with **PHP 8.5**. The image installs OpenCATS runtime tools and extensions including document parser utilities, `mysqli`, `gd`, `soap`, `zip`, `ldap`, and `mbstring`.
 
 ## Default development credentials
 
@@ -57,7 +57,16 @@ If an existing `INSTALL_BLOCK` file prevents the installer from starting in a fr
 
 ## Test Docker environment
 
-The CI/test environment uses `docker/docker-compose-test.yml`, MariaDB 10.7 containers, Selenium, PHPUnit, and Behat. See [Developer Guide](developer-guide.md) for the full local test workflow.
+The CI/test environment uses `docker/docker-compose-test.yml`, MariaDB 10.7 containers, Selenium, PHPUnit, and Behat. It defaults to PHP 8.4.1 and accepts `PHP_VERSION` as a build argument so CI can also test PHP 8.5.
+
+For example:
+
+```bash
+cd docker
+PHP_VERSION=8.5 docker compose -f docker-compose-test.yml up -d --build
+```
+
+See [Developer Guide](developer-guide.md) for the full local test workflow.
 
 ## Production warning
 
