@@ -6,15 +6,15 @@ cover: .gitbook/assets/opencats-logo.svg
 coverY: -19.322916666666668
 ---
 
-# Current release: 0.10.0
+# Current release: 0.11.1
 
 ## Release information
 
-The current OpenCATS application release documented here is **0.10.0**. The latest release packages are published at [https://github.com/opencats/OpenCATS/releases](https://github.com/opencats/OpenCATS/releases).
+The current OpenCATS application release documented here is **0.11.1**. The latest release packages are published at [https://github.com/opencats/OpenCATS/releases](https://github.com/opencats/OpenCATS/releases).
 
 ## Supported platform baseline
 
-OpenCATS is built and tested in CI on a Linux/Unix environment with **PHP 7.4** and **MariaDB 10.7**. Other versions or platforms may work, but they are not the CI/CD baseline used by the project.
+OpenCATS requires **PHP 8.4.1 or later within PHP 8**. Project CI currently tests **PHP 8.4.1** and **PHP 8.5** on Linux/Unix with **MariaDB 10.7** for Docker-backed integration and Behat testing. Other database, operating system, or web server combinations may work, but they are not the project CI/CD baseline.
 
 The main runtime dependencies are PHP, MariaDB, a web server, and the PHP extensions required by OpenCATS. Optional document parsing utilities such as `antiword`, `pdftotext`, `html2text`, and `unrtf` improve resume/document text extraction and search, but are not required just to complete installation.
 
@@ -22,9 +22,9 @@ MySQL is not the documented database target. MariaDB is the recommended and test
 
 ## Which package should I install?
 
-For a normal installation, download the release archive from GitHub Releases. Release archives are intended to be easier to install than a raw source checkout.
+For a normal installation, download one of the prepared **full** release archives from GitHub Releases. These include the production Composer dependencies and are intended to be easier to install than GitHub's automatically generated source archives.
 
-If you install from source, clone the repository, or download source code instead of a prepared release archive, install PHP dependencies with Composer:
+If you install from source, clone the repository, or download source code instead of a prepared full release archive, install PHP dependencies with Composer:
 
 ```bash
 composer install --no-dev
