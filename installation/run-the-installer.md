@@ -80,7 +80,7 @@ For a new installation, the default login is:
 admin / cats
 ```
 
-Change the administrator password immediately after logging in.
+OpenCATS 0.12.0 requires the default administrator password to be changed after login. Complete that step before using the application.
 
 ## Post-install checklist
 

@@ -7,12 +7,12 @@ The Docker files in the OpenCATS repository are intended for **development and t
 The repository Docker Compose setup starts these services:
 
 * `opencats_web`: Nginx web container, exposed on ports `80` and `443`.
-* `opencats_php`: PHP-FPM container built from `docker/php/Dockerfile`.
+* `opencats_php`: PHP-FPM container using the prebuilt `opencats/php-base` image; `docker/php/Dockerfile` is the source used to build that image.
 * `opencats_data`: shared source/data volume mounting the repository into `/var/www/public`.
 * `opencats_mariadb`: MariaDB database container.
 * `opencats_phpmyadmin`: phpMyAdmin container exposed on port `8080`.
 
-The PHP image defaults to **PHP 8.4.1 FPM Alpine**. Project CI also builds the test stack with **PHP 8.5**. The image installs OpenCATS runtime tools and extensions including document parser utilities, `mysqli`, `gd`, `soap`, `zip`, `ldap`, and `mbstring`.
+The PHP image defaults to **PHP 8.4.27 FPM Alpine**. The 0.12.0 CI matrix also uses **PHP 8.5.12**. The image installs OpenCATS runtime tools and extensions including document parser utilities, `mysqli`, `gd`, `soap`, `zip`, `ldap`, and `mbstring`.
 
 ## Default development credentials
 
@@ -33,7 +33,8 @@ From the OpenCATS application repository:
 
 ```bash
 cd docker
-docker compose up -d --build
+docker compose pull php
+docker compose up -d
 ```
 
 If you are working from source and dependencies are missing, install Composer dependencies in the PHP container:
@@ -57,13 +58,14 @@ If an existing `INSTALL_BLOCK` file prevents the installer from starting in a fr
 
 ## Test Docker environment
 
-The CI/test environment uses `docker/docker-compose-test.yml`, MariaDB 10.7 containers, Selenium, PHPUnit, and Behat. It defaults to PHP 8.4.1 and accepts `PHP_VERSION` as a build argument so CI can also test PHP 8.5.
+The CI/test environment uses `docker/docker-compose-test.yml`, MariaDB 10.7 containers, Selenium, PHPUnit, and Behat. It defaults to the prebuilt `opencats/php-base:8.4.27` image and uses `PHP_VERSION` to select another published image tag, such as `8.5.12`. The Compose files do not build the PHP image.
 
 For example:
 
 ```bash
 cd docker
-PHP_VERSION=8.5 docker compose -f docker-compose-test.yml up -d --build
+PHP_VERSION=8.5.12 docker compose -f docker-compose-test.yml pull php
+PHP_VERSION=8.5.12 docker compose -f docker-compose-test.yml up -d
 ```
 
 See [Developer Guide](developer-guide.md) for the full local test workflow.

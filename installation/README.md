@@ -11,7 +11,9 @@ OpenCATS can be installed from a release archive, from source with Composer, or 
 
 ## Baseline requirements
 
-OpenCATS 0.11.1 requires PHP 8.4.1 or later within PHP 8. Project CI tests PHP 8.4.1 and PHP 8.5, with MariaDB 10.7 used by the Docker-backed integration and Behat test environment. Install the required PHP extensions, create a MariaDB database and user, and ensure OpenCATS writable directories are owned by the web server user.
+OpenCATS 0.12.0 requires PHP 8.4.1 or later within PHP 8. Project CI tests PHP 8.4.27 and PHP 8.5.12, with MariaDB 10.7 used by the Docker-backed integration and Behat test environment. Install the required PHP extensions, create a MariaDB database and user, and ensure OpenCATS writable directories are owned by the web server user.
+
+Use a currently patched PHP 8.4 or 8.5 runtime; the Composer minimum does not mean that old PHP patch releases are secure. See [Prerequisites](../technical-configuration-options/pre-requisites.md).
 
 For normal installations, use a prepared **full** release archive from GitHub Releases so production Composer dependencies are already included.
 

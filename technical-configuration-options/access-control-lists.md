@@ -2,6 +2,12 @@
 
 OpenCATS uses access-control checks around modules, actions, settings pages, imports, and AJAX behavior. Recent security work tightened authorization checks for module actions and AJAX endpoints, so custom code should not assume that a reachable URL is permission-free.
 
+## OpenCATS 0.12.0 changes
+
+CSV exports through the export module require Site Administrator access, including candidate exports. Recruiters with ordinary add/edit/delete access should not expect the export action to be available.
+
+Additional checks cover tag administration, attachment deletion, hidden candidates in job-order pipelines, email/phone lookup endpoints, and activity/pipeline updates. Access to a parent record must also be respected when working with its related records or attachments.
+
 ## Practical guidance
 
 * Give users the lowest access level that supports their role.

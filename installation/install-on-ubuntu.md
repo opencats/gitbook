@@ -1,12 +1,12 @@
 # Install on Ubuntu
 
-These instructions describe a Linux/Apache/MariaDB/PHP installation path for OpenCATS 0.11.1. Commands may need small adjustments for your Ubuntu release and package repositories.
+These instructions describe a Linux/Apache/MariaDB/PHP installation path for OpenCATS 0.12.0. Commands may need small adjustments for your Ubuntu release and package repositories.
 
 ## Install MariaDB and Apache
 
 ```bash
 sudo apt-get update
-sudo apt-get install mariadb-server mariadb-client apache2 unzip wget
+sudo apt-get install mariadb-server mariadb-client apache2 unzip wget software-properties-common
 sudo mysql_secure_installation
 ```
 
@@ -14,16 +14,19 @@ MariaDB is the documented database family for OpenCATS. Current CI Docker tests 
 
 ## Install PHP 8.4 and extensions
 
-OpenCATS 0.11.1 requires PHP 8.4.1 or later within PHP 8. Project CI tests PHP 8.4.1 and PHP 8.5. If your Ubuntu release does not provide PHP 8.4 packages directly, use a trusted package source such as the Ondrej Surý PHP PPA.
+OpenCATS 0.12.0 requires PHP 8.4.1 or later within PHP 8. Project CI tests PHP 8.4.27 and PHP 8.5.12. If your Ubuntu release does not provide PHP 8.4 packages directly, use a trusted package source such as the Ondrej Surý PHP PPA.
 
 ```bash
 sudo add-apt-repository ppa:ondrej/php
 sudo apt-get update
 sudo apt-get install php8.4 php8.4-cli php8.4-fpm php8.4-mysql php8.4-gd php8.4-soap php8.4-ldap php8.4-xml php8.4-curl php8.4-mbstring php8.4-zip
+sudo a2enmod proxy_fcgi setenvif
+sudo a2enconf php8.4-fpm
+sudo systemctl enable --now php8.4-fpm
 sudo systemctl restart apache2
 ```
 
-Depending on your Apache configuration, you may use PHP-FPM or an Apache PHP module. Confirm that the web server is actually using PHP 8.4.1 or later before running the installer.
+This example uses PHP-FPM. If Apache already uses a different PHP handler or FPM version, adjust the virtual host and disable the conflicting handler before switching. Confirm that both CLI PHP and the web server use the intended version; `php -v` checks only the CLI. Use current security-patched packages, not an old PHP 8.4.1 installation.
 
 ## Optional document parsing utilities
 
@@ -57,12 +60,12 @@ These database credentials are separate from your OpenCATS application login.
 
 ## Download OpenCATS
 
-Download the latest prepared **full** release archive from [GitHub Releases](https://github.com/opencats/OpenCATS/releases). For OpenCATS 0.11.1:
+Download the latest prepared **full** release archive from [GitHub Releases](https://github.com/opencats/OpenCATS/releases). For OpenCATS 0.12.0:
 
 ```bash
 cd /var/www/html
-sudo wget https://github.com/opencats/OpenCATS/releases/download/v0.11.1/opencats-v0.11.1-full.zip
-sudo unzip opencats-v0.11.1-full.zip -d opencats
+sudo wget https://github.com/opencats/OpenCATS/releases/download/v0.12.0/opencats-v0.12.0-full.zip
+sudo unzip opencats-v0.12.0-full.zip -d opencats
 ```
 
 The full release archive includes production Composer dependencies. If a future release asset name differs, use the exact filename shown on GitHub Releases.

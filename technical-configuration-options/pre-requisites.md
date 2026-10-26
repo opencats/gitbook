@@ -1,17 +1,19 @@
 # Prerequisites
 
-This page lists the current baseline for OpenCATS 0.11.1.
+This page lists the current baseline for OpenCATS 0.12.0.
 
 ## Tested CI/CD baseline
 
 OpenCATS requires PHP 8.4.1 or later within PHP 8. Project CI currently tests on Linux with:
 
-* PHP 8.4.1
-* PHP 8.5
+* PHP 8.4.27
+* PHP 8.5.12
 * Composer 2
 * MariaDB 10.7 for Docker-backed integration and Behat tests
 
 Other PHP, database, operating system, or web server combinations may work, but this is the baseline used by project CI/CD.
+
+The Composer minimum remains PHP 8.4.1, but deployments should use currently patched PHP 8.4 or 8.5 packages. The 0.12.0 test images use PHP 8.4.27 and 8.5.12; older patch releases are not the deployment target. Update the server runtime separately from OpenCATS.
 
 ## Required runtime components
 
@@ -36,7 +38,7 @@ On distribution packages, extension package names vary. Ubuntu-style PHP 8.4 pac
 
 ## Composer dependencies
 
-OpenCATS runtime Composer dependencies include CKEditor, Sphinx search API support, PHPMailer, FPDF, CAPTCHA support, and the `mbstring` extension. For production source installs, run:
+OpenCATS runtime Composer dependencies include Bootstrap 5.3, Sphinx search API support, PHPMailer, FPDF, CAPTCHA support, and the `mbstring` extension. SunEditor and Chart.js are bundled locally in the release; neither requires npm, a CDN, or a frontend build. CKEditor and Artichow are no longer runtime dependencies. For production source installs, run:
 
 ```bash
 composer install --no-dev

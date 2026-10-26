@@ -51,13 +51,11 @@ Every OpenCATS page request goes more or less through the above 5 steps.
 
 OpenCATS URLs are designed to be intuitive and easy to use for developers:
 
-E.g. [HTTP://OpenCATS.org/index.php?m=clients\&a=show\&clientID=239](http://opencats.org/index.php?m=clients\&a=show\&clientID=239) means:
+For a Company record, a current-style URL is `index.php?m=companies&a=show&companyID=239`:
 
-> * m = clients
-> * a = show
-> * clientID = 329
-
-index.php sends the URL to the “clients” module. The clients module processes the action “show” for clientID 329. We want to display details of client 239.
+* `m=companies` selects the Companies module.
+* `a=show` selects the record display action.
+* `companyID=239` identifies the record, subject to the normal permission checks.
 
 Here is the basic layout of a module:
 

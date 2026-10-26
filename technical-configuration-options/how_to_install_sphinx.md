@@ -1,4 +1,6 @@
-# How\_to\_install\_Sphinx
+# How to install Sphinx
+
+> Historical community guide: the Sphinx 2.1.3 build and configuration below are not the OpenCATS 0.12.0 CI baseline. Sphinx is optional. Start with the [current prerequisites](pre-requisites.md#optional-sphinx-search) and the application's [optional Sphinx integration](https://github.com/opencats/OpenCATS/tree/v0.12.0/optional-updates/latest-sphinx-search), and verify compatibility in a test environment before using the older instructions.
 
 \###How to install Sphinx ##OpenCats Sphinx Integration - latest version contributed by @zoomiest from the OpenCATS forums.
 

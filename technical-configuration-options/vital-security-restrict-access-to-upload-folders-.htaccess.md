@@ -1,85 +1,68 @@
 # Vital Security: Restrict access to upload folders (.htaccess)
 
-OpenCATS performs server-side upload extension validation, but you should still configure your web server so uploaded files cannot execute as scripts. Treat web server restrictions as defense in depth.
+OpenCATS validates attachment extensions server-side, but the web server must also prevent uploaded files from executing and prevent direct access to private attachments.
 
-## Upload directories
+## Attachments must be served through OpenCATS
 
-Review restrictions for these directories:
+The 0.12.0 `attachments/.htaccess` denies all direct HTTP access. Download attachments through OpenCATS so authentication and authorization checks run. Do not replace this restriction with `Require all granted` for document extensions: that would expose private files outside the application's permission checks.
 
-* `opencats/upload`
-* `opencats/attachments`
+For Apache 2.4, the equivalent virtual-host configuration is:
 
-The web server user must be able to write files OpenCATS needs, but uploaded content should not be executable. Avoid permissions such as `777` unless your hosting environment leaves no safer option.
+```apache
+<Directory /var/www/html/opencats/attachments>
+    AllowOverride None
+    Options -ExecCGI -Indexes
+    Require all denied
+</Directory>
+```
 
-Example ownership and permissions on many Linux systems:
+Adjust the path to the real installation directory. This blocks HTTP access; the PHP process must still have filesystem access to read and write attachments. If relying on the shipped `.htaccess` instead, Apache must allow its directives to take effect.
+
+## Upload staging directory
+
+Keep the release's `upload/.htaccess` execution restrictions when using Apache. Check that your virtual host's PHP handler cannot execute files in `upload/`, including scripts with unexpected or multiple extensions. An extension allow-list alone does not establish safe PHP-FPM or CGI handling.
+
+If you maintain equivalent restrictions in the server configuration, check them against the actual PHP handler and import workflow. Do not enable directory listings or grant general access to staged private documents.
+
+## Nginx and other servers
+
+Nginx does not read `.htaccess`. Add equivalent rules to its configuration. For an installation at `/opencats/`, this location denies direct attachment requests and takes precedence over generic PHP regex locations:
+
+```nginx
+location ^~ /opencats/attachments/ {
+    deny all;
+}
+```
+
+Adjust the URL prefix, including removing `/opencats` for a root installation. Separately prevent script execution in the upload staging directory and check all PHP routing rules. The repository's development Docker configuration should not be assumed to provide a hardened production deployment.
+
+## Allowed attachment extensions
+
+The 0.12.0 attachment upload validator allows:
+
+```text
+bmp, csv, doc, docx, heic, jpeg, jpg, msg, odg, odt, pages, pdf, png, ppt, pptx, rtf, tiff, wpd, wps, xls, xlsx, xps
+```
+
+This describes attachment validation, not permission to make those files publicly accessible.
+
+## Filesystem permissions
+
+Give the PHP/web server account only the filesystem access it needs. For example, from the installation directory on an Ubuntu system using `www-data`:
 
 ```bash
 sudo chown -R www-data:www-data upload attachments
 sudo chmod 770 upload attachments
 ```
 
-## Current allowed upload extensions
+Avoid world-writable permissions. Filesystem access and HTTP access are separate controls.
 
-Current OpenCATS upload validation allows these extensions:
+## Verify the deployment
 
-```text
-bmp, csv, doc, docx, heic, jpeg, jpg, msg, odg, odt, pages, pdf, png, ppt, pptx, rtf, tiff, wpd, wps, xls, xlsx, xps
-```
+* Upload an allowed document and download it through OpenCATS as an authorized user.
+* Confirm an unauthenticated request to its direct attachment URL is denied.
+* Confirm a user without the relevant record permission cannot download it through OpenCATS.
+* Confirm invalid script uploads are rejected and files in upload directories cannot execute.
+* Check web server logs for unexpected denials, then retest bulk imports if used.
 
-Your web server allow-list should be no broader than the file types you actually need.
-
-## Apache 2.4 `.htaccess` example
-
-Place an `.htaccess` file in each upload directory if your Apache configuration allows overrides:
-
-```apache
-IndexIgnore *
-Options -ExecCGI -Indexes
-AddHandler cgi-script .php .php2 .php3 .php4 .php5 .php6 .php7 .php8 .php9 .pl .py .js .jsp .asp .sh .cgi
-
-<FilesMatch "(?i)\.(bmp|csv|docx?|heic|jpe?g|msg|odg|odt|pages|pdf|png|pptx?|rtf|tiff?|wpd|wps|xlsx?|xps)$">
-    Require all granted
-</FilesMatch>
-```
-
-For stronger control, put equivalent rules in the main Apache virtual host or server configuration and disable `.htaccess` overrides.
-
-## Apache server configuration example
-
-```apache
-<Directory /var/www/html/opencats/upload>
-    IndexIgnore *
-    Options -ExecCGI -Indexes
-    AddHandler cgi-script .php .php2 .php3 .php4 .php5 .php6 .php7 .php8 .php9 .pl .py .js .jsp .asp .sh .cgi
-    <FilesMatch "(?i)\.(bmp|csv|docx?|heic|jpe?g|msg|odg|odt|pages|pdf|png|pptx?|rtf|tiff?|wpd|wps|xlsx?|xps)$">
-        Require all granted
-    </FilesMatch>
-</Directory>
-
-<Directory /var/www/html/opencats/attachments>
-    IndexIgnore *
-    Options -ExecCGI -Indexes
-    AddHandler cgi-script .php .php2 .php3 .php4 .php5 .php6 .php7 .php8 .php9 .pl .py .js .jsp .asp .sh .cgi
-    <FilesMatch "(?i)\.(bmp|csv|docx?|heic|jpe?g|msg|odg|odt|pages|pdf|png|pptx?|rtf|tiff?|wpd|wps|xlsx?|xps)$">
-        Require all granted
-    </FilesMatch>
-</Directory>
-```
-
-Adjust paths for your installation.
-
-## Test after changes
-
-After changing upload restrictions:
-
-* Upload a valid document and confirm OpenCATS can attach and download it.
-* Try uploading an invalid script file and confirm OpenCATS rejects it.
-* Try browsing directly to uploaded content and confirm scripts cannot execute.
-* Review web server logs for unexpected denials or executable handling.
-
-## Reference material
-
-* https://blog.devolutions.net/2019/12/how-to-prevent-file-upload-vulnerabilities
-* https://stackoverflow.com/questions/5689423/how-to-ban-all-executable-files-on-apache
-* https://stackoverflow.com/questions/6368777/how-to-prevent-uploaded-file-from-being-executed
-* https://www.sitepoint.com/community/t/securing-image-upload-directory-via-htaccess/44659
+Reference the versioned [attachment restrictions](https://github.com/opencats/OpenCATS/blob/v0.12.0/attachments/.htaccess), [upload restrictions](https://github.com/opencats/OpenCATS/blob/v0.12.0/upload/.htaccess), and [attachment validator](https://github.com/opencats/OpenCATS/blob/v0.12.0/lib/Attachments.php) when comparing your configuration.

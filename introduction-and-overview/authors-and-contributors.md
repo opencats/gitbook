@@ -10,6 +10,6 @@ The application source code is maintained at:
 
 Documentation is maintained separately in the GitBook documentation repository.
 
-Before opening an application pull request, review the current contributor guidance in the application repository. Pull request titles must use this format:
+Before opening an application pull request, read [CONTRIBUTING.md](https://github.com/opencats/OpenCATS/blob/master/CONTRIBUTING.md) and the [Modernisation & Contributor Roadmap](https://github.com/orgs/opencats/projects/2). Pull request titles use `type: description`, for example `docs: update installation guidance`. See the [Developer Guide](../technical-configuration-options/developer-guide.md#pull-request-title-format) for allowed types.
 
 If anyone has been forgotten, please let us know! [russh@opencats.org](mailto:russh@opencats.org)

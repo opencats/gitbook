@@ -1,17 +1,48 @@
-# How\_to\_script\_database\_backups
+# How to script database backups
 
-\###How to script database backups
+Use a scheduled CLI database dump alongside attachment and configuration backups. Read [Backup, Restore, and Upgrade](opencats-backup-restore-and-upgrade-instructions-this-section-incomplete.md) for the complete recovery process. A database dump alone does not include resumes or other files.
 
-### ####Backup all databases nightly w/ mysqldump
+## Credentials
 
-(from linux.org) So, I want to take a shell script and be able to put it on any machine - and have it backup the databases on that machine using mysqldump.. and put them each separately into a backup directory.. here's what I came up with.
+Create `/etc/opencats-backup.cnf` outside the web root, readable only by the account running the backup (for a root-run job, use owner root and mode `600`):
 
-Can you make it better?
+```ini
+[client]
+user=opencats_backup
+password=replace-with-a-strong-password
+host=localhost
+```
 
-`#!/bin/bash` ``DB_BACKUP="/backups/mysql_backup/`date +%Y-%m-%d`"`` `DB_USER="root"` `DB_PASSWD="secretttt"` `` HN=`hostname | awk -F. '{print $1}'` `` `# Create the backup directory` `mkdir -p $DB_BACKUP` `# Remove backups older than 10 days` `find /backups/mysql_backup/ -maxdepth 1 -type d -mtime +10 -exec rm -rf {} ;` `# Option 1: Backup each database on the system using a root username and password` `for db in $(mysql --user=$DB_USER --password=$DB_PASSWD -e 'show databases' -s --skip-column-names|grep -vi information_schema);` `do mysqldump --user=$DB_USER --password=$DB_PASSWD --opt $db | gzip > "$DB_BACKUP/mysqldump-$HN-$db-$(date +%Y-%m-%d).gz";` `done` `# Option 2: If you aren't using a root password then comment out option 1 and use this` `# for db in $(mysql -e 'show databases' -s --skip-column-names|grep -vi information_schema);` `# do mysqldump --opt $db | gzip > "$DB_BACKUP/mysqldump-$HN-$db-$(date +%Y-%m-%d).gz";` `# done` `# Make it so only root can read the backup files` `chmod -R 600 $DB_BACKUP`
+Use a database account with the privileges needed to dump the OpenCATS database, routines and triggers. Verify the dump with that account before scheduling it. Do not put a database password in cron or command-line arguments.
 
-If you use this, throw this text into something like /usr/local/bin/mysql\_backup.sh and since it has mysql's root password in it, make sure that you chmod 700 to it so no one else can read it. Then just call it from cron like:
+## Backup script
 
-`30 3 * * * /usr/local/bin/mysql_backup.sh`
+Save this as `/usr/local/sbin/opencats-db-backup`, owned by the backup account and executable only by that account. Adjust the database name, paths and `mysqldump` binary for your server (`mariadb-dump` may be used instead):
 
-BTW, a simpler way to grab all of them is to use the --all-databases flag in the mysqldump command.. but it doesn't make nice separate files for you..
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+umask 077
+
+backup_dir=/var/backups/opencats
+mkdir -p "$backup_dir"
+backup_file="$backup_dir/opencats-$(date -u +%Y%m%dT%H%M%SZ).sql.gz"
+partial_file=$(mktemp "$backup_dir/.opencats-dump.XXXXXX")
+trap 'rm -f -- "$partial_file"' EXIT
+
+mysqldump --defaults-extra-file=/etc/opencats-backup.cnf \
+    --single-transaction --routines --triggers opencats | gzip > "$partial_file"
+mv -- "$partial_file" "$backup_file"
+```
+
+The script exits on a dump or compression failure and only gives completed dumps their final name. Monitor failures and confirm successful backups are not empty. `--single-transaction` provides a consistent snapshot for transactional tables; check older installations for non-transactional tables and avoid schema changes during the dump.
+
+## Schedule and verify
+
+For example, in the backup account's crontab:
+
+```cron
+30 3 * * * /usr/local/sbin/opencats-db-backup
+```
+
+Keep cron error reporting or another monitoring mechanism enabled. Set a retention policy, keep a protected copy off the server, and regularly restore a dump plus its matching attachments into an isolated test environment. The example deliberately does not delete older backups.

@@ -1,27 +1,22 @@
 # Roadmap
 
-This page is intentionally conservative. OpenCATS roadmap commitments should come from current maintainer planning and GitHub issues rather than old documentation tables.
-
 ## Current documented baseline
 
-The documentation currently targets OpenCATS 0.10.0, PHP 7.4, and the Linux/MariaDB CI environment used by the application repository.
+This documentation targets OpenCATS 0.12.0. The Composer requirement is PHP 8.4.1 or later within PHP 8; the release CI matrix uses PHP 8.4.27 and 8.5.12 on Linux with MariaDB 10.7 for Docker-backed tests. Deployments should use current security-patched PHP packages.
 
-## Recently completed modernization themes
+## Completed in 0.12.0
 
-Recent application work includes:
+* Bootstrap 5.3 styling across the application, login, installer and Career Portal.
+* Locally bundled Chart.js and SunEditor replacing Artichow and CKEditor.
+* Stronger authorization, administrator-only CSV exports and default administrator password-change enforcement.
+* Career Portal CAPTCHA and server-side candidate authentication sessions.
+* ISO date support alongside existing US and UK formats.
+* Status-history indexes, dependency updates and expanded automated tests.
 
-* PHP 7.4 support and CI coverage.
-* Composer-managed runtime and development dependencies.
-* PHPUnit and Behat test infrastructure.
-* Security hardening for CSRF, AJAX, authorization, uploads, and password storage.
-* Docker-based development and test workflows.
-* Activity, job order, contact, and schema refinements.
+See the [release notes](https://github.com/opencats/OpenCATS/releases/tag/v0.12.0) for the shipped changes.
 
 ## Where to track future work
 
-For current priorities, use the OpenCATS GitHub issue tracker and pull requests:
+The [OpenCATS Modernisation & Contributor Roadmap](https://github.com/orgs/opencats/projects/2) is the maintainer planning source. Use it alongside [GitHub issues](https://github.com/opencats/OpenCATS/issues), [pull requests](https://github.com/opencats/OpenCATS/pulls) and [CONTRIBUTING.md](https://github.com/opencats/OpenCATS/blob/master/CONTRIBUTING.md).
 
-* [OpenCATS issues](https://github.com/opencats/OpenCATS/issues)
-* [OpenCATS pull requests](https://github.com/opencats/OpenCATS/pulls)
-
-If maintainers publish a new formal roadmap, this page should be updated to reflect that source of truth.
+Planned recruitment, search, API and dashboard enhancements are not automatically part of the 0.12.0 release. Check the relevant issue and release notes before relying on a feature.

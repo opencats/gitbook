@@ -10,7 +10,7 @@ When possible, have an administrator reset the user's password from inside OpenC
 
 If you are locked out and must reset a password directly in MariaDB, do **not** use MD5. Generate a modern PHP password hash first.
 
-On a server with PHP 7.4 available:
+Use the same supported PHP runtime as the OpenCATS installation:
 
 ```bash
 php -r "echo password_hash('NewStrongPasswordHere', PASSWORD_DEFAULT), PHP_EOL;"

@@ -11,7 +11,9 @@ Install a Windows web stack that provides:
 * Apache or another PHP-capable web server
 * phpMyAdmin or another MariaDB administration tool
 
-OpenCATS CI currently tests PHP 8.4.1 and PHP 8.5. XAMPP and WAMP are common Windows choices, but make sure the version you install provides a compatible PHP release or allows you to configure one.
+OpenCATS CI currently tests PHP 8.4.27 and PHP 8.5.12. XAMPP and WAMP are common Windows choices, but make sure the version you install provides a compatible PHP release or allows you to configure one.
+
+Use a currently patched PHP 8.4 or 8.5 build. Upgrading OpenCATS alone does not patch the Windows PHP runtime.
 
 ## Download OpenCATS
 

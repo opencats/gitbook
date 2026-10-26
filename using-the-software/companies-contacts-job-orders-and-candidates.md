@@ -1,12 +1,14 @@
-# companies, contacts, job orders, and candidates
+# Companies, contacts, job orders, and candidates
 
-### Using OpenCATS-The building blocks: companies, contacts, job orders, and candidates[¶](broken-reference)
+These workflows apply to OpenCATS 0.12.0. Forms use Bootstrap 5.3, so positions may differ from older versions or custom themes. See [Using the software](README.md) for the main release changes.
 
-### The modules[¶](broken-reference)
+### Using OpenCATS-The building blocks: companies, contacts, job orders, and candidates
+
+### The modules
 
 OpenCATS is made up of the following modules:
 
-**Home:** When you log into CATS, you will see the Home module. This is your dashboard, which lists your activities. The Dashboard is customizable from the Settings module.
+**Home:** When you log into OpenCATS, you will see the Home module. The dashboard shows recent activity, upcoming events, recent hires, Hiring Overview and Important Candidates.
 
 **Activities:** All of your daily activities and interactions with candidates, companies and contacts are populated in this module.
 
@@ -16,19 +18,19 @@ OpenCATS is made up of the following modules:
 
 **Companies:** All of the available Companies are displayed in this module. Search existing and create new Companies.
 
-**Contacts:** All of the available Candidates are displayed in this module. Search existing and create new Contacts. Access your Cold Call List.
+**Contacts:** All of the available Contacts are displayed in this module. Search existing and create new Contacts. Access your Cold Call List.
 
 **Calendar:** All scheduled events are populated in this module. By default, the Calendar shows the week view of the current week. Add new Events and access your Upcoming Events.
 
 **Reports:** All available reports are populated in this module.
 
-**Settings:** Options to customize your account and CATS features are available in this module. Users change your Profile, Password. Administrators access your account, change your Career Portal and E- mail configurations, and customize your dashboard, import and backup data.
+**Settings:** Users can view their profile and change their password. Administrators manage users, Career Portal settings, email configuration, localization, imports and backups.
 
 Note
 
 Let’s start entering in information and populating our fantastic new OpenCATS system.
 
-### Add a new Company[¶](broken-reference)
+### Add a new Company
 
 Click on `Companies`
 
@@ -67,7 +69,7 @@ Voila! You have a new client!
 
 If you want to add any relevant attachment documents such as a copy of your client agreement, benefits overview, etc. Click the `Add Attachment` button.
 
-### Add a new Contact[¶](broken-reference)
+### Add a new Contact
 
 Next let’s add a Company Contact.
 
@@ -77,7 +79,7 @@ Fill in all the information fields, including any relevant notes that’s you wa
 
 You should now see the contact listed in the Contacts section of the Company screen.
 
-### Add a new Job Order[¶](broken-reference)
+### Add a new Job Order
 
 From the current screen, let’s add our first Job order. Click `Add Job Order` in the Job Orders section of Bob’s Company page.
 
@@ -111,7 +113,7 @@ This will take you to your new Job Order screen.
 
 If everything looks correct, let’s move on to adding our first candidate in OpenCATS and into the pipeline for this job.
 
-### Adding a Candidate and attaching them to the Job Order pipeline[¶](broken-reference)
+### Adding a Candidate and attaching them to the Job Order pipeline
 
 Click `Add Candidate to This Job Order Pipeline` at the bottom of the screen.
 
@@ -127,7 +129,7 @@ Note
 
 Make sure to Rate your candidates with the stars under **Match** on the bottom this screen. It will help with quick reference later on.
 
-## Current behavior notes for OpenCATS 0.10.0
+## Current behavior notes for OpenCATS 0.12.0
 
 Recent OpenCATS versions changed several day-to-day workflows:
 

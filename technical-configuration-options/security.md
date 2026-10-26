@@ -4,7 +4,23 @@ This page summarizes security practices for current OpenCATS installations. It c
 
 ## Reporting security issues
 
-Report security issues privately to the OpenCATS maintainers so the community has time to respond and upgrade. The application repository currently directs reports to `russh@opencats.org`.
+Use [GitHub Private Vulnerability Reporting](https://github.com/opencats/OpenCATS/security/advisories/new). In the application repository, open **Security and quality → Report a vulnerability**. Include affected versions, reproduction steps, impact and any proposed fix.
+
+Do not send vulnerability reports by email or through public issues, discussions or pull requests. Follow the current [OpenCATS security policy](https://github.com/opencats/OpenCATS/blob/master/Security.MD) for private coordination.
+
+## Application and PHP updates
+
+Install OpenCATS 0.12.0 and keep PHP and server packages patched separately. The 0.12.0 test images use PHP 8.4.27 and 8.5.12. Installing an OpenCATS archive does not update the host PHP runtime.
+
+## Career Portal authentication
+
+Career Portal and candidate registration are disabled by default. If enabled, returning-candidate verification requires CAPTCHA and a currently public, visible vacancy. Candidate identity is stored server-side in the PHP session. Persistent “Remember my information” authentication cookies are no longer used. Remove obsolete remember-me wording from custom registration templates.
+
+For a public deployment, consider throttling candidate authentication at the web server or reverse proxy. OpenCATS 0.12.0 does not implement application-level rate limiting. Rules must cover both the main and `careers/index.php` entry points and POST routing, not just a query-string match. See the [deployment guidance](https://github.com/opencats/OpenCATS/blob/v0.12.0/docs/career-portal-authentication.md) for details and limitations.
+
+## Authorization changes
+
+CSV exports through the export module require Site Administrator access. Permission checks also protect tag administration, job-order attachment ownership, hidden pipeline candidates, email/phone lookups, and activity/pipeline parent records. Preserve these checks in custom code; changing a link or hiding a button does not grant access.
 
 ## Password storage
 

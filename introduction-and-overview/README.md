@@ -1,14 +1,14 @@
 # Introduction and Overview
 
-![](../../.gitbook/assets/opencats-logo.svg)
+![](../.gitbook/assets/opencats-logo.svg)
 
 OpenCATS is a free and open source, full-featured, web-based applicant tracking system, or ATS. It helps you manage the complete recruitment life-cycle from business development through finalizing a placement. It manages a huge range of information for you, including:
 
-### What is an Applicant tracking system (ATS)?[¶](broken-reference)
+### What is an Applicant tracking system (ATS)?
 
 An Applicant tracking system, or ATS, is software designed specifically for Recruiting firms, and HR departments within organizations to organize and track everything within the recruiting process for their organizations.
 
-### How is it free and what is Open Source software?[¶](broken-reference)
+### How is it free and what is Open Source software?
 
 Without getting too specific or technical on what is and is not open source, open source software is community developed software that is available to use for free, by anyone, at any time, in any way they choose to. It is truly “free” software. Furthermore, because of the open nature, if you want to dig into the code and customize it, you are allowed to. If you want to share your changes back with the community, you are allowed to (please do!).
 
@@ -16,7 +16,7 @@ There are a lot of different variances in open source software and they’ve bee
 
 The developers behind OpenCATS will never contact you to try to sell you anything. We are a community of people creating recruiting software for people who do recruiting. Pure and simple.
 
-### OpenCATS vs CATSOne vs “open source”[¶](broken-reference)
+### OpenCATS vs CATSOne vs “open source”
 
 OpenCATS is a free, open-source ATS. This means that there are no charges or limitations to install or to use it.
 
@@ -34,25 +34,17 @@ OpenCATS, on the other hand, has somewhat less functionality, is installed on yo
 
 The OpenCATS team and the CATSOne organization are not associated in any way. We will not push anyone into any paid service, any time, ever.
 
-### What can OpenCATS be used for?[¶](broken-reference)
+### What can OpenCATS be used for?
 
 If you have to fill jobs, even if it’s only one or two jobs a year, OpenCATS can make your life a lot easier. It will work in small to enterprise sized environments. From one user to hundreds.
 
-### How does OpenCATS compare to other free software and paid Applicant Tracking Systems?[¶](broken-reference)
+### How does OpenCATS compare to other free software and paid Applicant Tracking Systems?
 
-If you compare OpenCATS to free resources out there, there’s nothing to compare. As far as I know, there are currently one open source applicant tracking system out there right now, which is an off-shoot of OpenCATS. The options as far as I can tell, are free tiers of paid applicant tracking systems that in my opinion don’t provide enough functionality to be practical for daily usage for any but the smallest recruiting environments. The only accurate comparison of a free Applicant tracking system would be the folks out there who are doing their tracking on excel sheets and storing resumes on their hard drives.
+Choose an ATS by testing your recruitment workflows, hosting requirements, integrations and support needs. OpenCATS is self-hosted and has no per-user licence fee, but operating, securing, backing up and maintaining the system still takes time and resources. Commercial services offer different features and support arrangements.
 
-If this is you….STOP IT! There is no reason to do that any more. OpenCATS solves your problems and is free.
+With a self-hosted installation you control where the data is stored and who can access it. That control also makes your organisation responsible for security, updates and tested backups. See the [installation guides](../installation/README.md) and [security guidance](../technical-configuration-options/security.md).
 
-When you start comparing OpenCATS against the paid applicant tracking systems out there, it’s not such an easy decision. For example, even the lower priced applicant tracking systems generally are competitive or even far better than OpenCATS in terms of features. The higher priced, enterprise applicant tracking systems make OpenCATS (in it’s current state) an afterthought.
-
-So if you are willing to pay the monthly cost of even a cheaper applicant tracking system, and features that OpenCATS are lacking in are important enough, then a paid ATS may be a better option for you. The advantage in that scenario that OpenCATS still has however, is that OpenCATS is still free for multiple users. So, a low end applicant tracking system might bring value at $50/month for a solo recruiter over a free OpenCATS system. But, what if you have ten users? Are those features worth the $50/month per user price-tag ($500/month total)? These are factors to consider.
-
-Another aspect to OpenCATS that should be considered is data privacy and data security. With a self-hosted OpenCATS system, you are solely responsible for your data security. If you are managing that well, you won’t fall victim to the occasional hacks and data breaches you hear about on the news. Also, there is no chance of coming into the office one day to find that the company running your applicant tracking system has suddenly closed their doors overnight with no way to access your critical recruiting information. OpenCATS allows you to control the security of your data, and control of your recruiting information. There is tremendous value in that, if that is important to you.
-
-While OpenCATS is a perfectly functional applicant tracking system. It does not compete with most modern paid applicant tracking systems feature for feature. Whether it is the right solutions for you and your company is up to you! Test it out and decide.
-
-### OpenCATS General Features[¶](broken-reference)
+### OpenCATS General Features
 
 Try our demo!
 
@@ -81,10 +73,9 @@ OpenCATS will walk you through the process, including the sales cycle, from buil
 For internal recruiting, all recruiting can be done by checking the “Internal posting” check-box on the job order. Departments can be created and customized within any organization, and contacts added for those departments. OpenCATS can be as thorough and specific as you need it to be. For recruiting firms with external clients, each client can be tracked individually, even if they have multiple locations, departments and hiring managers. The flexibility is there within OpenCATS to ensure accuracy throughout the recruiting process.
 
 **Company branding:** OpenCATS can be branded for your organization, you can replace the OpenCATS logo with your company logo, and the public-facing job posting page and outgoing emails, can be changed to match the look of your company’s website and emails.
-www
-**Skills based tagging:** Initially, OpenCATS had resume parsing and resume search built in. Over time, that functionality has been lost. The development team is focused on implementing long term solutions that will allow parsing and keyword search in OpenCATS. In the meantime, skill tagging is included in OpenCATS, and serves as a very functional alternative to keyword searching.
+**Search and tags:** OpenCATS provides candidate searches, key-skills fields and record tags. Document text extraction depends on the optional parser utilities and their configuration; Sphinx is an optional search integration. Tags label records and do not replace resume text search. See [Prerequisites](../technical-configuration-options/pre-requisites.md).
 
-**Lists:** OpenCATS can make lists for whatever you need. Lead lists for sales?Yes. Candidate hot-sheets? Yes. List by geographic location? Yes. Anything you may need a list for, sales or recruiting, you can generate in OpenCATS for quick access. Lists can also be conveniently be exported as a csv file for any external applications.
+**Lists:** Users can manually group candidates, contacts and other records for later reference. Lists are not automatically refreshed searches and need ongoing review. CSV export through the export module requires Site Administrator access.
 
 **Calendar:** OpenCATS has a rich and immersive calendar built in that provides a thorough and accurate overview of activities. If you use the calendar system, you will always know what is coming up, and be able to quickly find information from past scheduled events. Unfortunately, at this time, there is no integration with any external calendar systems. OpenCATS can not sync with anything outside of OpenCATS.
 
@@ -96,9 +87,9 @@ www
 
 **Ownership of data:** You own it. It’s yours. You can control it and secure it however you want. No need for your data to be on someone else’s servers, unless that is how you choose to do it.
 
-**Backup and restore:** Your OpenCATS system can be backed up as often as you want, ensuring no loss of data, ever. There is an easy and intuitive GUI-driven backup/restore system. System administrators can also perform backups/restores through the MySQL database and file system if they prefer. Anyone can backup and restore OpenCATS, regardless of technical knowledge and ability.
+**Backup and restore:** Back up the MariaDB database, attachments, configuration and customisations, and test recovery regularly. CLI database and filesystem backups are the recommended operational approach; a GUI backup alone should not be assumed to cover everything. See [Backup, Restore, and Upgrade](../technical-configuration-options/opencats-backup-restore-and-upgrade-instructions-this-section-incomplete.md).
 
-**User access levels:** Currently there are different access levels for users in the OpenCATS system, which the administrator can set up and assign. These are focused on the ability to manipulate data within OpenCATS. The OpenCATS dev team are working on features that will allow administrators to limit access to the records within OpenCATS (example: a recruiter will only be able to see the candidates/clients that are assigned to them, if that’s how you choose to set it up).
+**User access levels:** Administrators assign access levels that control actions within OpenCATS. Version 0.12.0 strengthens existing authorization checks and restricts CSV exports to Site Administrators. Ownership filters such as “Only My Candidates” are not a guarantee of record isolation. See [Access control lists](../technical-configuration-options/access-control-lists.md).
 
 **Built in Emailing:** The email functionality within OpenCATS is substantial. Currently, OpenCATS can be used to send emails to candidates, clients, and contacts. It can also be used to notify of status changes and new applications, or anything you would like it to do. Templates can be set up and used and branding can be included.
 

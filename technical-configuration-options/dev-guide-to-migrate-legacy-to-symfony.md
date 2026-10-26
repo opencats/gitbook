@@ -1,5 +1,7 @@
 # Dev Guide to migrate Legacy to Symfony
 
+> Historical proposal: this page describes an earlier Symfony migration experiment, not the OpenCATS 0.12.0 architecture or installation process. Current releases retain `index.php`, `ajax.php`, `modules/`, `lib/` and `config.php`, and use PHPUnit and Behat. Docker is a development/test option, not a required production deployment. Use the [Developer Guide](developer-guide.md) for current instructions.
+
 ## Introduction
 
 The OpenCATS legacy code is stored in the root of the OpenCATS project, while the code of OpenCATS Symfony it's on the src/ folder.

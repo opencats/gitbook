@@ -102,6 +102,20 @@ A typical upgrade flow is:
 8. After upgrade, confirm `INSTALL_BLOCK` exists.
 9. Test login, records, attachments, reports, search, email, and scheduled reminders.
 
+## Upgrading to 0.12.0
+
+Read the [0.12.0 release notes](https://github.com/opencats/OpenCATS/releases/tag/v0.12.0) and test your customisations on a restored copy before production deployment.
+
+* **Runtime:** use a currently patched PHP 8.4 or 8.5 installation. The release test images use 8.4.27 and 8.5.12. Updating OpenCATS does not patch PHP.
+* **Templates and styles:** review custom themes, CSS and dialogs against the Bootstrap 5.3 markup. Avoid copying entire old templates over the new release.
+* **Rich text:** SunEditor replaces CKEditor. Check custom editor integrations, saved email templates, source editing and previews.
+* **Charts and extensions:** Chart.js replaces Artichow. Extensions using graph hooks must work with structured chart data rather than the old graph objects. The recruiting-summary PDF now uses a numeric summary in place of the graph image.
+* **Permissions:** CSV exports require Site Administrator access. Retest custom workflows with ordinary recruiter accounts as well as administrators.
+* **Career Portal:** retest applications, questionnaires and returning-candidate verification if enabled. Persistent candidate authentication cookies are no longer used; review custom registration templates and the [security guidance](security.md#career-portal-authentication).
+* **Dates:** existing installations retain their selected format. ISO `YYYY-MM-DD` is also available in Settings → Administration → Localization.
+
+After deployment, test these workflows and confirm that the installer is blocked again. A rollback after a schema upgrade requires restoring the matching database and files from your tested backup.
+
 ## GUI backup and restore
 
 OpenCATS has GUI backup screens under Settings and Administration. These may be useful for small installations or quick exports, but CLI backups are the recommended operational backup method.

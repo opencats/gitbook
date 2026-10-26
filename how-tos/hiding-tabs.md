@@ -2,7 +2,7 @@
 
 ### Hiding some tabs all the time
 
-If you only want to use a subset of the tabs available, and want to hide the ones you don't use, then add the names of the tabs you want hidden to the printTabs method in the `TemplateUtility.php` class on line 602 like so
+If you only want to use a subset of the tabs available, you can customise the `printTabs()` method in `lib/TemplateUtility.php`. Locate the method by name rather than relying on line numbers. For example:
 
 `if (empty($tabText) || $tabText === 'Companies' || $tabText === 'Job Orders' || $tabText === 'Activities') { continue; }`
 
