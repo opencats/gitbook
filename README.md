@@ -18,7 +18,7 @@ OpenCATS requires **PHP 8.4.1 or later within PHP 8**. Project CI currently test
 
 The main runtime dependencies are PHP, MariaDB, a web server, and the PHP extensions required by OpenCATS. Optional document parsing utilities such as `antiword`, `pdftotext`, `html2text`, and `unrtf` improve resume/document text extraction and search, but are not required just to complete installation.
 
-MySQL is not the documented database target. MariaDB is the recommended and tested database family for current OpenCATS deployments.
+**MariaDB is the supported and tested database family. MySQL is not supported.** On some MySQL/shared-hosting installations, MySQL's `ONLY_FULL_GROUP_BY` mode causes existing OpenCATS queries to fail. If your host offers only MySQL, see the [known limitation and optional session-only workaround](installation/run-the-installer.md#unsupported-mysql-hosting-and-only_full_group_by). This is not a supported configuration, and additional incompatibilities may remain.
 
 The Composer minimum is a compatibility requirement, not a security recommendation. Use a currently patched PHP 8.4 or 8.5 runtime, including your distribution's security fixes. Updating OpenCATS does not update PHP on the server.
 
