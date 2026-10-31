@@ -34,6 +34,29 @@ Use the installer database connectivity test before continuing. If the test fail
 * the database host is reachable from the web server;
 * PHP has the MariaDB/MySQL extension installed.
 
+## Unsupported MySQL hosting and `ONLY_FULL_GROUP_BY`
+
+OpenCATS is developed and tested with **MariaDB**, not Oracle MySQL. Shared hosting providers (including some Bluehost plans) may supply MySQL rather than MariaDB. A successful database connection does **not** mean that all OpenCATS queries will run correctly on MySQL.
+
+A known compatibility problem is MySQL's `ONLY_FULL_GROUP_BY` SQL mode. Existing OpenCATS queries can fail with an error similar to `Expression ... is not in GROUP BY clause`. This has been reported previously in [issue #329](https://github.com/opencats/OpenCATS/issues/329) and [issue #413](https://github.com/opencats/OpenCATS/issues/413); these are historical reports, not promises of MySQL support.
+
+**Recommended solution:** Use a hosting service offering a supported MariaDB database. If you must use MySQL and understand the risks, the following *site-local, untested compatibility workaround* removes **only** `ONLY_FULL_GROUP_BY` for OpenCATS' database connection. Make a backup first. In `lib/DatabaseConnection.php`, inside `DatabaseConnection::connect()`, after the successful `mysqli_select_db()` check and immediately before `return true;`, add:
+
+```php
+if (!mysqli_query(
+    $this->_connection,
+    "SET SESSION sql_mode = sys.list_drop(@@SESSION.sql_mode, 'ONLY_FULL_GROUP_BY')"
+)) {
+    throw new RuntimeException(
+        'Unable to change MySQL session SQL mode: ' . mysqli_error($this->_connection)
+    );
+}
+```
+
+This uses MySQL's `sys.list_drop()` function. Some shared-hosting accounts may not have access to the `sys` schema; if this fails, contact your hosting provider rather than disabling all SQL modes. The change applies **only to the current connection**, not the server's global configuration, and must be reapplied to local OpenCATS files after application upgrades. It is **not** an OpenCATS project patch.
+
+**Do not use** `SET SESSION sql_mode = ''` as a general workaround: it turns off additional SQL validation protections, including strict data handling. Even the narrower workaround relaxes `GROUP BY` validation and can allow ambiguous grouped results; it does not correct the underlying SQL. Test candidate lists, reports, data edits and upgrades carefully. Other MySQL incompatibilities may remain, and MySQL installations are outside the project's support and CI matrix.
+
 ## Resume indexing and document parsing
 
 OpenCATS can use external tools to extract text from uploaded resumes and documents. The installer may ask for paths to these tools. Typical Linux paths are:
